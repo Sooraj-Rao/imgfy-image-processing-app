@@ -1,5 +1,5 @@
 import React from "react";
-import Compressor from "./compress";
+import Compressor from "../components/compress";
 import Header, { Footer } from "@/components/header-footer";
 
 const Page = () => {

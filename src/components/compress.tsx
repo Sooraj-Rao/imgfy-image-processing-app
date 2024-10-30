@@ -75,7 +75,7 @@ export default function Compressor() {
     };
 
     try {
-      const compressedFile = await imageCompression(imageFile, options);
+      const compressedFile = await imageCompression(imageFile as File, options);
       const outputBlob = await convertImageFormat(compressedFile, format);
       setCompressedImage(URL.createObjectURL(outputBlob));
       setCompressedFileSize((outputBlob.size / 1024).toFixed(2));
@@ -91,7 +91,7 @@ export default function Compressor() {
     format: string
   ): Promise<Blob> => {
     const canvas = document.createElement("canvas");
-    const image = new Image();
+    const image = new window.Image();
     const url = URL.createObjectURL(file);
     image.src = url;
 
