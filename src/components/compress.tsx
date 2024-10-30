@@ -2,13 +2,7 @@
 
 import { useState } from "react";
 import imageCompression from "browser-image-compression";
-import {
-  Upload,
-  Download,
-  RefreshCcw,
-  Image as ImageIcon,
-  Menu,
-} from "lucide-react";
+import { Upload, Download, RefreshCcw, Image as ImageIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -21,31 +15,18 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Progress } from "@/components/ui/progress";
-import { Card, CardContent } from "@/components/ui/card";
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
-import { ModeToggle } from "@/components/theme-toggle";
-import Header from "@/components/header-footer";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
+import { cn } from "@/lib/utils";
 
-export default function Compressor() {
+export default function ImageCompressor() {
   const [originalImage, setOriginalImage] = useState<string | null>(null);
   const [compressedImage, setCompressedImage] = useState<string | null>(null);
   const [originalFileSize, setOriginalFileSize] = useState<string>("0");
   const [compressedFileSize, setCompressedFileSize] = useState<string>("0");
   const [compressionProgress, setCompressionProgress] = useState<number>(0);
   const [isCompressing, setIsCompressing] = useState<boolean>(false);
-  const [showCompressor, setShowCompressor] = useState<boolean>(false);
-
   const [quality, setQuality] = useState<number>(80);
-  const [maxWidth, setMaxWidth] = useState<number>(800);
-  const [maxHeight, setMaxHeight] = useState<number>(800);
   const [format, setFormat] = useState<string>("jpeg");
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -67,7 +48,6 @@ export default function Compressor() {
     const imageFile = await fetch(originalImage).then((r) => r.blob());
     const options = {
       maxSizeMB: 1,
-      maxWidthOrHeight: Math.max(maxWidth, maxHeight),
       useWebWorker: true,
       initialQuality: quality / 100,
       onProgress: (progress: number) =>
@@ -124,40 +104,32 @@ export default function Compressor() {
     setCompressionProgress(0);
     setIsCompressing(false);
     setQuality(80);
-    setMaxWidth(800);
-    setMaxHeight(800);
     setFormat("jpeg");
   };
 
   return (
-    <main className="flex-grow">
-      {!showCompressor ? (
-        <div className="container mx-auto px-4 py-16 text-center">
-          <h1
-            className="
-            scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl
-          bg-gradient-to-r from-rose-700 via-rose-300 to-rose-700 bg-clip-text text-transparent
-          "
-          >
-            Fast, high-quality image compression in seconds
-          </h1>
-          <p className="text-xl mb-8">
-            Reduce file size without compromising quality
-          </p>
-          <Button onClick={() => setShowCompressor(true)} size="lg">
-            Compress Now
-          </Button>
-        </div>
-      ) : (
-        <div className="container mx-auto p-4 flex justify-center items-center">
-          <Card className="w-full max-w-4xl">
-            <CardContent className="p-6 space-y-4">
-              {!originalImage ? (
-                <Label htmlFor="image-upload" className="cursor-pointer block">
-                  <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-primary transition-colors">
+    <>
+      <div className="container mx-auto px-4 py-8 max-w-4xl">
+        <div className="w-full">
+          <CardHeader>
+            <CardTitle className="text-2xl font-bold text-center">
+              Add your Image for Compression here
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            {!originalImage ? (
+              <div className="flex flex-col items-center justify-center p-8">
+                <Label
+                  htmlFor="image-upload"
+                  className="cursor-pointer w-full max-w-md"
+                >
+                  <div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-8 text-center hover:border-primary transition-colors">
                     <Upload className="mx-auto h-12 w-12 text-gray-400" />
-                    <p className="mt-4 text-lg text-gray-500">
+                    <p className="mt-4 text-lg text-gray-500 dark:text-gray-400">
                       Click to upload an image
+                    </p>
+                    <p className="mt-2 text-sm text-gray-400 dark:text-gray-500">
+                      Max file size: 10MB
                     </p>
                   </div>
                   <Input
@@ -168,11 +140,13 @@ export default function Compressor() {
                     className="hidden"
                   />
                 </Label>
-              ) : (
+              </div>
+            ) : (
+              <div className="space-y-6">
                 <div className="grid md:grid-cols-2 gap-6">
                   <div className="space-y-4">
                     <div className="space-y-2">
-                      <Label htmlFor="quality" className="text-sm">
+                      <Label htmlFor="quality" className="text-sm font-medium">
                         Quality: {quality}%
                       </Label>
                       <Slider
@@ -182,42 +156,15 @@ export default function Compressor() {
                         step={1}
                         value={[quality]}
                         onValueChange={(value) => setQuality(value[0])}
+                        className="w-full"
                       />
                     </div>
-                    <div className="grid grid-cols-2 gap-4">
-                      <div className="space-y-2">
-                        <Label htmlFor="maxWidth" className="text-sm">
-                          Max Width
-                        </Label>
-                        <Input
-                          id="maxWidth"
-                          type="number"
-                          value={maxWidth}
-                          onChange={(e) =>
-                            setMaxWidth(parseInt(e.target.value) || 0)
-                          }
-                        />
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="maxHeight" className="text-sm">
-                          Max Height
-                        </Label>
-                        <Input
-                          id="maxHeight"
-                          type="number"
-                          value={maxHeight}
-                          onChange={(e) =>
-                            setMaxHeight(parseInt(e.target.value) || 0)
-                          }
-                        />
-                      </div>
-                    </div>
                     <div className="space-y-2">
-                      <Label htmlFor="format" className="text-sm">
+                      <Label htmlFor="format" className="text-sm font-medium">
                         Format
                       </Label>
                       <Select value={format} onValueChange={setFormat}>
-                        <SelectTrigger id="format">
+                        <SelectTrigger id="format" className="w-full">
                           <SelectValue placeholder="Select format" />
                         </SelectTrigger>
                         <SelectContent>
@@ -235,45 +182,32 @@ export default function Compressor() {
                       {isCompressing ? "Compressing..." : "Compress Image"}
                     </Button>
                     {isCompressing && (
-                      <Progress
-                        value={compressionProgress}
-                        className="w-full"
-                      />
+                      <div className="space-y-2">
+                        <Progress
+                          value={compressionProgress}
+                          className="w-full"
+                        />
+                        <p className="text-sm text-center text-gray-500">
+                          {compressionProgress}% complete
+                        </p>
+                      </div>
                     )}
                   </div>
                   <div className="space-y-4">
                     <div className="grid grid-cols-2 gap-4">
-                      <div className="space-y-2">
-                        <h3 className="text-sm font-semibold">Original</h3>
-                        <div className="aspect-square relative">
-                          <Image
-                            width={100}
-                            height={100}
-                            src={originalImage}
-                            alt="Original"
-                            className="absolute inset-0 w-full h-full object-cover rounded-md"
-                          />
-                        </div>
-                        <p className="text-xs text-muted-foreground">
-                          Size: {originalFileSize} KB
-                        </p>
-                      </div>
-                      {compressedImage && (
-                        <div className="space-y-2">
-                          <h3 className="text-sm font-semibold">Compressed</h3>
-                          <div className="aspect-square relative">
-                            <Image
-                              width={100}
-                              height={100}
-                              src={compressedImage}
-                              alt="Compressed"
-                              className="absolute inset-0 w-full h-full object-cover rounded-md"
-                            />
-                          </div>
-                          <p className="text-xs text-muted-foreground">
-                            Size: {compressedFileSize} KB
-                          </p>
-                        </div>
+                      <ImagePreview
+                        title="Original"
+                        src={originalImage}
+                        size={originalFileSize}
+                      />
+                      {!isCompressing ? (
+                        <ImagePreviewAnim />
+                      ) : (
+                        <ImagePreview
+                          title="Compressed"
+                          src={compressedImage}
+                          size={compressedFileSize}
+                        />
                       )}
                     </div>
                     {compressedImage && (
@@ -292,15 +226,49 @@ export default function Compressor() {
                       variant="outline"
                       className="w-full"
                     >
-                      <RefreshCcw className="mr-2 h-4 w-4" /> Reset Compressor
+                      <RefreshCcw className="mr-2 h-4 w-4" /> Compress Another
+                      Image
                     </Button>
                   </div>
                 </div>
-              )}
-            </CardContent>
-          </Card>
+              </div>
+            )}
+          </CardContent>
         </div>
-      )}
-    </main>
+      </div>
+    </>
+  );
+}
+
+function ImagePreview({
+  title,
+  src,
+  size,
+}: {
+  title: string;
+  src: string | null;
+  size: string;
+}) {
+  return (
+    <div className="space-y-2">
+      <h3 className="text-sm font-semibold">{title}</h3>
+      <div
+        className={cn(
+          "aspect-square relative rounded-md overflow-hidden bg-gray-100 dark:bg-gray-800",
+          !src && "flex items-center justify-center"
+        )}
+      >
+        {src && <Image src={src} alt={title} fill className="object-cover" />}
+      </div>
+      <p className="text-xs text-muted-foreground">Size: {size} KB</p>
+    </div>
+  );
+}
+
+function ImagePreviewAnim() {
+  return (
+    <div className=" mt-7">
+      <div className="w-48 h-[11.8rem]  rounded bg-zinc-300 dark:bg-zinc-600 animate-pulse    "></div>
+    </div>
   );
 }

@@ -13,9 +13,6 @@ body {
   font-family: 'CustomFont', sans-serif;
 }
 
-
-
-
 :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
@@ -95,5 +92,47 @@ body {
 
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+
+
+.DarkLoader {
+  animation: DarkLoader 2s infinite linear;
+  background: linear-gradient(to left, rgb(36, 46, 54) 4%, #3d4149 25%, rgb(36, 46, 54) 36%);
+  background-size: 1000px 100%;
+}
+
+@keyframes DarkLoader {
+  0% {
+    background-position: -1000px 0;
+  }
+
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.Loader {
+  animation: Loader 2s infinite linear;
+  background: linear-gradient(130deg, #5b6873, _#71342d, _#5b6873);
+  background-size: 1000px 100%;
+}
+
+@keyframes Loader {
+  0% {
+    background-position: -1000px 0;
+  }
+
+  100% {
+    background-position: 1000px 0;
+
+
+
+
+
+
+
+
   }
 }

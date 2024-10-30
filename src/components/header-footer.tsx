@@ -1,6 +1,6 @@
 "use client";
 
-import { Image as ImageIcon, Menu } from "lucide-react";
+import { BugIcon, Image as ImageIcon, Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 import {
@@ -13,25 +13,39 @@ import {
 } from "@/components/ui/sheet";
 import { ModeToggle } from "@/components/theme-toggle";
 import Link from "next/link";
+import { siteData } from "@/data/siteMetaData";
 
 const Header = () => {
   return (
-    <header className="bg-primary text-primary-foreground">
-      <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-        <div className="flex items-center space-x-4">
-          <ImageIcon className="h-8 w-8" />
-          <span className="text-xl font-bold">ImageCompressor</span>
+    <header className="bg-primary/5 ">
+      <div className=" mx-auto px-10 py-3  flex justify-between items-center">
+        <div className="flex items-center space-x-2">
+          <ImageIcon className="h-8 w-8 text-primary" />
+          <span className="text-xl font-extrbold text-primary">
+            {siteData.siteName}
+          </span>
         </div>
-        <nav className="hidden md:flex space-x-4">
-          <a href="#" className="hover:underline">
-            Home
-          </a>
-          <a href="#" className="hover:underline">
-            About
-          </a>
-          <a href="#" className="hover:underline">
-            Report
-          </a>
+        <nav className="hidden md:flex space-x-2 items-center">
+          <Link href="/">
+            <Button variant="ghost" >
+              Home
+            </Button>
+          </Link>
+          <Link href="/about">
+            <Button variant="ghost" >
+              About
+            </Button>
+          </Link>
+
+          <Link
+            href={siteData.report + siteData.siteName}
+            className=" flex items-center gap-1"
+          >
+            <Button variant="ghost" >
+              <BugIcon />
+              Report an Issue
+            </Button>
+          </Link>
           <ModeToggle />
         </nav>
         <Sheet>
@@ -69,12 +83,12 @@ export default Header;
 
 export const Footer = () => (
   <footer className=" flex justify-evenly w-full  py-4 text-sm text-gray-600">
-    <p>© 2024 ImageCompressor</p>
+    <p>© 2024 {siteData.siteName}</p>
     <p>
       Developed by
       <Link
         className=" ml-1 text-primary hover:underline"
-        href={"https://soorajrao.in"}
+        href={siteData.portfolio}
       >
         Sooraj
       </Link>
