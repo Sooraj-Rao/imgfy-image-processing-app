@@ -20,6 +20,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+          {/* <link rel="manifest" href="/manifest.json" />
+          <link rel="apple-touch-icon" href="/vercel.svg" />
+          <meta name="theme-color" content="#000000" /> */}
+      </head>
       <body>
         <ThemeProvider
           attribute="class"
