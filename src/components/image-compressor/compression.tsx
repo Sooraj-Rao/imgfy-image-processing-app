@@ -42,8 +42,6 @@ export function CompressionSection({
   setComparisonValue,
   showComparison,
   setShowComparison,
-  maxFileSize,
-  setMaxFileSize,
   resizeWidth,
   setResizeWidth,
   resizeHeight,
@@ -76,8 +74,6 @@ export function CompressionSection({
   setComparisonValue: (value: number) => void;
   showComparison: boolean;
   setShowComparison: (value: boolean) => void;
-  maxFileSize: number;
-  setMaxFileSize: (value: number) => void;
   resizeWidth: number;
   setResizeWidth: (value: number) => void;
   resizeHeight: number;
@@ -98,11 +94,11 @@ export function CompressionSection({
 
   return (
     <div className="space-y-6">
-      <div className="grid md:grid-cols-2 gap-6">
+      <div className="grid md:grid-cols-3 w-full gap-6">
         <div className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="quality" className="text-sm font-medium">
-              Quality: {quality}%
+              Compression level: {quality}%
             </Label>
             <Slider
               id="quality"
@@ -113,6 +109,10 @@ export function CompressionSection({
               onValueChange={(value) => setQuality(value[0])}
               className="w-full"
             />
+            <div className=" flex justify-between text-sm">
+              <p>More compression</p>
+              <p>Less compression</p>
+            </div>
           </div>
           <div className="space-y-2">
             <Label htmlFor="format" className="text-sm font-medium">
@@ -135,24 +135,12 @@ export function CompressionSection({
               checked={showAdvancedSettings}
               onCheckedChange={setShowAdvancedSettings}
             />
-            <Label htmlFor="showAdvancedSettings">Show Advanced Settings</Label>
+            <Label htmlFor="AdjustWidthAndHeight">
+              Adjust Width and Height
+            </Label>
           </div>
           {showAdvancedSettings && (
             <div className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="maxFileSize" className="text-sm font-medium">
-                  Max File Size (MB)
-                </Label>
-                <Input
-                  id="maxFileSize"
-                  type="number"
-                  min={0.1}
-                  step={0.1}
-                  value={maxFileSize}
-                  onChange={(e) => setMaxFileSize(parseFloat(e.target.value))}
-                  className="w-full"
-                />
-              </div>
               <div className="space-y-2">
                 <Label htmlFor="resizeWidth" className="text-sm font-medium">
                   Resize Width (px)
@@ -212,7 +200,7 @@ export function CompressionSection({
           )}
         </div>
         <div className="space-y-4">
-          <div className="relative aspect-square rounded-md overflow-hidden bg-gray-100 dark:bg-gray-800">
+          <div className="relative aspect-square rounded-2xl overflow-hidden bg-gray-100 dark:bg-gray-800">
             {showComparison ? (
               <ComparisonSlider
                 original={currentImage.original}
@@ -222,14 +210,16 @@ export function CompressionSection({
                 isCompressing={isCompressing}
               />
             ) : (
-              <Image
-                src={currentImage.compressed || currentImage.original}
-                alt={currentImage.name}
-                fill
-                className={`object-cover
+              <>
+                <Image
+                  src={currentImage.compressed || currentImage.original}
+                  alt={currentImage.name}
+                  fill
+                  className={`object-cover
                 ${isCompressing && "opacity-70"}
                 `}
-              />
+                />
+              </>
             )}
             <div
               className={` absolute left-1/2 top-1/2  p-1   -translate-x-1/2 -translate-y-1/2 
@@ -240,6 +230,7 @@ export function CompressionSection({
             </div>
             <Button
               variant="ghost"
+              title="Full-Screen-View"
               size="icon"
               className="absolute top-2 right-2 bg-black/50 hover:bg-black/70"
               onClick={onFullScreen}
@@ -247,6 +238,7 @@ export function CompressionSection({
               <Maximize2 className="h-4 w-4 text-white" />
             </Button>
           </div>
+
           {images.length > 1 && (
             <div className="flex justify-between items-center">
               <Button variant="outline" size="icon" onClick={onPrevImage}>
@@ -263,48 +255,51 @@ export function CompressionSection({
           <p className="text-sm text-center">
             Original: {originalSize} KB | Compressed: {compressedSize}
           </p>
-          <div className="flex gap-2">
-            {currentImage.compressed && currentImage.compressedSize !== -1 ? (
-              <Button asChild className="flex-1">
-                <a
-                  href={currentImage.compressed}
-                  download={`compressed-${currentImage.name}.${format}`}
-                >
-                  <Download className="mr-2 h-4 w-4" /> Download
-                </a>
-              </Button>
-            ) : (
-              <Button className="flex-1" disabled>
-                Download
-              </Button>
-            )}
-            {currentImage.compressedSize === -1 ? (
-              <Button
-                onClick={() => {
-                  toast.info(
-                    "Try changing the format or quality  for better results."
-                  );
-                }}
-                variant="outline"
-                className="flex-1"
+        </div>
+        <div>
+
+        <div className="flex gap-2">
+          {currentImage.compressed && currentImage.compressedSize !== -1 ? (
+            <Button asChild className="flex-1">
+              <a
+                href={currentImage.compressed}
+                download={`compressed-${currentImage.name}.${format}`}
               >
-                Suggest Alternatives
-              </Button>
-            ) : (
-              <Button
-                onClick={() => setShowComparison(!showComparison)}
-                variant="outline"
-                className="flex-1"
-                disabled={!currentImage.compressed}
-              >
-                {showComparison ? "Hide Comparison" : "Compare"}
-              </Button>
-            )}
-          </div>
-          <Button onClick={onReset} variant="outline" className="w-full">
-            <RefreshCcw className="mr-2 h-4 w-4" /> Compress New Image
-            {images.length > 1 ? "s" : ""}
-          </Button>
+                <Download className="mr-2 h-4 w-4" /> Download
+              </a>
+            </Button>
+          ) : (
+            <Button className="flex-1" disabled>
+              Download
+            </Button>
+          )}
+          {currentImage.compressedSize === -1 ? (
+            <Button
+              onClick={() => {
+                toast.info(
+                  "Try changing the format or quality  for better results."
+                );
+              }}
+              variant="outline"
+              className="flex-1"
+            >
+              Suggest Alternatives
+            </Button>
+          ) : (
+            <Button
+              onClick={() => setShowComparison(!showComparison)}
+              variant="outline"
+              className="flex-1"
+              disabled={!currentImage.compressed}
+            >
+              {showComparison ? "Hide Comparison" : "Compare"}
+            </Button>
+          )}
+        </div>
+        <Button onClick={onReset} variant="outline" className="w-full">
+          <RefreshCcw className="mr-2 h-4 w-4" /> Compress New Image
+          {images.length > 1 ? "s" : ""}
+        </Button>
         </div>
       </div>
     </div>

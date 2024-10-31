@@ -28,9 +28,9 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <Toaster />
-          <div className="flex flex-col min-h-screen">
+          <div className="flex flex-col min-h-screen justify-around">
             <Header />
-            {children}
+            <div className=" min-h-[calc(100vh-120px)]">{children}</div>
             <Footer />
           </div>
         </ThemeProvider>

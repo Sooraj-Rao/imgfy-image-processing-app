@@ -46,7 +46,7 @@ export const Header = () => {
         </nav>
         <Sheet>
           <SheetTrigger asChild>
-            <Button variant="outline" size="icon" className="md:hidden">
+            <Button variant="ghost" size="icon" className="md:hidden">
               <Menu className="h-6 w-6" />
             </Button>
           </SheetTrigger>
@@ -54,16 +54,20 @@ export const Header = () => {
             <SheetHeader>
               <SheetTitle>Menu</SheetTitle>
               <SheetDescription>
-                <nav className="flex flex-col space-y-4">
-                  <a href="#" className="hover:underline">
-                    Home
-                  </a>
-                  <a href="#" className="hover:underline">
-                    About
-                  </a>
-                  <a href="#" className="hover:underline">
-                    Report
-                  </a>
+                <nav className="flex flex-col items-center space-y-2 mt-4">
+                  <Link href="/">
+                    <Button variant="ghost">Home</Button>
+                  </Link>
+                  <Link href="/about">
+                    <Button variant="ghost">About</Button>
+                  </Link>
+
+                  <Link
+                    href={siteData.report + siteData.siteName}
+                    className=" flex items-center gap-1"
+                  >
+                    <Button variant="ghost">Report an Issue</Button>
+                  </Link>
                   <ModeToggle />
                 </nav>
               </SheetDescription>
@@ -76,7 +80,7 @@ export const Header = () => {
 };
 
 export const Footer = () => (
-  <footer className=" flex justify-evenly w-full  border-t py-4 text-sm dark:text-gray-200 text-zinc-900">
+  <footer className=" flex justify-evenly w-full  border-t py-4 sm:text-sm text-xs  dark:text-gray-200 text-zinc-900">
     <p>© 2024 {siteData.siteName}</p>
     <p>
       Developed by

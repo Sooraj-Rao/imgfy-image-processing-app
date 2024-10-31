@@ -27,7 +27,6 @@ export default function ImageCompressor() {
   const [showFullScreen, setShowFullScreen] = useState(false);
   const [comparisonValue, setComparisonValue] = useState(50);
   const [showComparison, setShowComparison] = useState(false);
-  const [maxFileSize, setMaxFileSize] = useState<number>(1);
   const [resizeWidth, setResizeWidth] = useState<number>(0);
   const [resizeHeight, setResizeHeight] = useState<number>(0);
   const [maintainAspectRatio, setMaintainAspectRatio] = useState<boolean>(true);
@@ -58,7 +57,6 @@ export default function ImageCompressor() {
       images.map(async (image, index) => {
         const imageFile = await fetch(image.original).then((r) => r.blob());
         const options = {
-          maxSizeMB: showAdvancedSettings ? maxFileSize : 1,
           useWebWorker: true,
           initialQuality: quality / 100,
           maxWidthOrHeight: showAdvancedSettings
@@ -154,7 +152,6 @@ export default function ImageCompressor() {
     setFormat("jpeg");
     setCurrentImageIndex(0);
     setShowComparison(false);
-    setMaxFileSize(1);
     setResizeWidth(0);
     setResizeHeight(0);
     setMaintainAspectRatio(true);
@@ -176,18 +173,27 @@ export default function ImageCompressor() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-100 to-gray-200 dark:from-gray-900 dark:to-gray-800">
-      <div className="container mx-auto px-4 py-8 max-w-4xl">
-        <Card className="w-full">
-          <CardHeader>
-            <CardTitle className="text-3xl font-bold text-center">
-              Image Compressor
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            {images.length === 0 ? (
+    <div className=" h-full ">
+      <div className="container mx-auto px-4 py-8 w-[80%] ">
+        {images.length === 0 ? (
+          <Card className="w-full ">
+            <CardHeader>
+              <CardTitle className=" text-xl sm:text-3xl font-bold text-center">
+                Upload image for Compression
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
               <UploadSection onUpload={handleImageUpload} />
-            ) : (
+            </CardContent>
+          </Card>
+        ) : (
+          <Card className=" w-full ">
+            <CardHeader>
+              <CardTitle className=" text-lg  font-bold text-center">
+                Compression settings
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="  ">
               <CompressionSection
                 images={images}
                 currentImageIndex={currentImageIndex}
@@ -206,8 +212,6 @@ export default function ImageCompressor() {
                 setComparisonValue={setComparisonValue}
                 showComparison={showComparison}
                 setShowComparison={setShowComparison}
-                maxFileSize={maxFileSize}
-                setMaxFileSize={setMaxFileSize}
                 resizeWidth={resizeWidth}
                 setResizeWidth={setResizeWidth}
                 resizeHeight={resizeHeight}
@@ -217,9 +221,9 @@ export default function ImageCompressor() {
                 showAdvancedSettings={showAdvancedSettings}
                 setShowAdvancedSettings={setShowAdvancedSettings}
               />
-            )}
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
+        )}
       </div>
       {showFullScreen && (
         <FullScreenView

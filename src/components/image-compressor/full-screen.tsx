@@ -14,12 +14,12 @@ export function FullScreenView({
       onClick={onClose}
       className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-90 p-4"
     >
-      <div className="relative max-w-full max-h-full">
+      <div className="relative flex justify-center items-center  w-screen h-screen">
         <Image
           src={src}
           alt="Full Screen View"
-          width={1200}
-          height={800}
+          width={900}
+          height={900}
           className="rounded-lg"
         />
         <Button
