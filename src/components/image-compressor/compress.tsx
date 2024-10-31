@@ -78,7 +78,6 @@ export default function ImageCompressor() {
           const compressedUrl = URL.createObjectURL(outputBlob);
           const compressedSize = outputBlob.size;
 
-          // Check if compressed size is larger than original
           if (compressedSize >= image.originalSize) {
             return { ...image, compressed: null, compressedSize: -1 };
           }
@@ -174,11 +173,11 @@ export default function ImageCompressor() {
 
   return (
     <div className=" h-full ">
-      <div className="container mx-auto px-4 py-8 w-[80%] ">
+      <div className="container mx-auto px-4 py-8 sm:w-[80%] w-full flex justify-center ">
         {images.length === 0 ? (
-          <Card className="w-full ">
+          <Card className=" sm:max-w-xl w-full bg-transparent ">
             <CardHeader>
-              <CardTitle className=" text-xl sm:text-3xl font-bold text-center">
+              <CardTitle className=" text-xl  font-bold text-center">
                 Upload image for Compression
               </CardTitle>
             </CardHeader>
@@ -187,13 +186,8 @@ export default function ImageCompressor() {
             </CardContent>
           </Card>
         ) : (
-          <Card className=" w-full ">
-            <CardHeader>
-              <CardTitle className=" text-lg  font-bold text-center">
-                Compression settings
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="  ">
+          <Card className=" w-full    bg-transparent shadow-none border-none ">
+            <CardContent className=" mt-4">
               <CompressionSection
                 images={images}
                 currentImageIndex={currentImageIndex}

@@ -18,13 +18,15 @@ import { siteData } from "@/data/siteMetaData";
 export const Header = () => {
   return (
     <header className=" shadow ">
-      <div className=" mx-auto px-10 py-3  flex justify-between items-center">
-        <div className="flex items-center space-x-2">
-          <ImageIcon className="h-8 w-8 text-primary" />
-          <span className="text-xl font-extrbold text-primary">
-            {siteData.siteName}
-          </span>
-        </div>
+      <div className=" mx-auto sm:px-10 px-4 py-3  flex justify-between items-center">
+        <Link href={"/"}>
+          <div className="flex items-center space-x-2">
+            <ImageIcon className="h-8 w-8 text-primary" />
+            <span className="text-xl font-extrbold text-primary">
+              {siteData.siteName}
+            </span>
+          </div>
+        </Link>
         <nav className="hidden md:flex space-x-2 items-center ">
           <Link href="/">
             <Button variant="ghost">Home</Button>
