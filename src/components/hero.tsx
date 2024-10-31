@@ -1,12 +1,9 @@
 import { StarsIcon } from "lucide-react";
 import { Button } from "./ui/button";
 import { ArrowUpIcon } from "@radix-ui/react-icons";
+import Link from "next/link";
 
-export const Hero = ({
-  setShowCompressor,
-}: {
-  setShowCompressor: (val: boolean) => void;
-}) => (
+export const Hero = () => (
   <div className="container mx-auto px-4 py-16 text-center">
     <h1
       className="
@@ -19,15 +16,13 @@ export const Hero = ({
     <p className="text-xl mb-8 mt-4">
       Reduce file size without compromising quality
     </p>
-    <Button
-      onClick={() => setShowCompressor(true)}
-      className=" group"
-      size="lg"
-    >
-      Compress Now
-      <div className=" w-0 overflow-hidden group-hover:w-4 duration-200">
-        <ArrowUpIcon className=" rotate-45   " />
-      </div>
-    </Button>
+    <Link href={"/compress-image"}>
+      <Button className=" group" size="lg">
+        Compress Now
+        <div className=" w-0 overflow-hidden group-hover:w-4 duration-200">
+          <ArrowUpIcon className=" rotate-45   " />
+        </div>
+      </Button>
+    </Link>
   </div>
 );

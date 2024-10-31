@@ -15,9 +15,9 @@ import { ModeToggle } from "@/components/theme-toggle";
 import Link from "next/link";
 import { siteData } from "@/data/siteMetaData";
 
-const Header = () => {
+export const Header = () => {
   return (
-    <header className="bg-primary/5 ">
+    <header className=" shadow ">
       <div className=" mx-auto px-10 py-3  flex justify-between items-center">
         <div className="flex items-center space-x-2">
           <ImageIcon className="h-8 w-8 text-primary" />
@@ -25,23 +25,19 @@ const Header = () => {
             {siteData.siteName}
           </span>
         </div>
-        <nav className="hidden md:flex space-x-2 items-center">
+        <nav className="hidden md:flex space-x-2 items-center ">
           <Link href="/">
-            <Button variant="ghost" >
-              Home
-            </Button>
+            <Button variant="ghost">Home</Button>
           </Link>
           <Link href="/about">
-            <Button variant="ghost" >
-              About
-            </Button>
+            <Button variant="ghost">About</Button>
           </Link>
 
           <Link
             href={siteData.report + siteData.siteName}
             className=" flex items-center gap-1"
           >
-            <Button variant="ghost" >
+            <Button variant="ghost">
               <BugIcon />
               Report an Issue
             </Button>
@@ -79,14 +75,14 @@ const Header = () => {
   );
 };
 
-export default Header;
-
 export const Footer = () => (
-  <footer className=" flex justify-evenly w-full  py-4 text-sm text-gray-600">
+  <footer className=" flex justify-evenly w-full  border-t py-4 text-sm dark:text-gray-200 text-zinc-900">
     <p>© 2024 {siteData.siteName}</p>
     <p>
       Developed by
       <Link
+        title="Open Portfolio"
+        target="_blank"
         className=" ml-1 text-primary hover:underline"
         href={siteData.portfolio}
       >
