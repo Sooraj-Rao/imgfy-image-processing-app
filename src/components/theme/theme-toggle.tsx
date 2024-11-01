@@ -14,6 +14,7 @@ export function ModeToggle() {
       <Button
         onClick={ChangeTheme}
         variant="ghost"
+        className="px-3"
         title="Change Theme"
       >
         <SunIcon className="h-[1.2rem] w-[1.2rem] dark:hidden" />

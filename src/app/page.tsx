@@ -1,6 +1,6 @@
 import React from "react";
 
-import Hero from "@/components/hero";
+import Hero from "@/components/home/hero";
 
 const Page = () => <Hero />;
 

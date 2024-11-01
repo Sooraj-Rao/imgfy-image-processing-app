@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -16,22 +18,22 @@ import {
   ChevronLeft,
   ChevronRight,
   Download,
+  Info,
   Loader2,
   Maximize2,
   RefreshCcw,
 } from "lucide-react";
 import { useCallback, useRef } from "react";
-import { toast } from "sonner";
 import { MdOutlineCompare } from "react-icons/md";
 import { SizeFormatter } from "@/utils/size-convert";
 import { siteData } from "@/data/siteMetaData";
-import { CardTitle } from "../ui/card";
+import { motion, AnimatePresence } from "framer-motion";
 
 export function CompressionSection({
   images,
   currentImageIndex,
-  quality,
-  setQuality,
+  compressionLevel,
+  setCompressionLevel,
   format,
   setFormat,
   isCompressing,
@@ -62,8 +64,8 @@ export function CompressionSection({
     compressedSize: number;
   }[];
   currentImageIndex: number;
-  quality: number;
-  setQuality: (value: number) => void;
+  compressionLevel: number;
+  setCompressionLevel: (value: number) => void;
   format: string;
   setFormat: (value: string) => void;
   isCompressing: boolean;
@@ -101,31 +103,40 @@ export function CompressionSection({
       : "0.00";
 
   return (
-    <div className="space-y-6">
-      <div className="grid md:grid-cols-3 w-full gap-6">
-        <div className="sm:space-y-4 space-y-1">
-          <p className=" font-semibold text-zinc-700 dark:text-zinc-300  mb-4 ">
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      className="space-y-6"
+    >
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full gap-6">
+        <motion.div
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.2, duration: 0.5 }}
+          className="col-span-1 md:col-span-2 lg:col-span-1 space-y-4"
+        >
+          <p className="font-semibold text-zinc-700 dark:text-zinc-300 mb-4">
             Compression Settings
           </p>
-          <div className="space-y-2  ">
-            <Label htmlFor="quality" className="text-sm font-medium">
-              Compression level: {quality}%
+          <div className="space-y-2">
+            <Label htmlFor="compressionLevel" className="text-sm font-medium">
+              Compression Level: {compressionLevel}%
             </Label>
             <Slider
-              id="quality"
+              id="compressionLevel"
               min={1}
               max={100}
               step={1}
-              value={[quality]}
-              onValueChange={(value) => setQuality(value[0])}
+              value={[compressionLevel]}
+              onValueChange={(value) => setCompressionLevel(value[0])}
               className="w-full"
             />
             <div className="flex justify-between text-sm text-muted-foreground">
-              <p>More compression</p>
-              <p>Less compression</p>
+              <p>Smaller file size</p>
+              <p>Higher quality</p>
             </div>
           </div>
-          <br  className=" sm:hidden "/>
           <div className="space-y-2">
             <Label htmlFor="format" className="text-sm font-medium">
               Format
@@ -147,55 +158,70 @@ export function CompressionSection({
               checked={showAdvancedSettings}
               onCheckedChange={setShowAdvancedSettings}
             />
-            <Label className=" my-3 sm:my-0" htmlFor="showAdvancedSettings">
+            <Label htmlFor="showAdvancedSettings">
               Adjust Width and Height
             </Label>
           </div>
-          {showAdvancedSettings && (
-            <div className="space-y-4">
-              <div className="flex justify-between gap-x-4">
-                <div className="space-y-2 flex-1">
-                  <Label htmlFor="resizeWidth" className="text-sm font-medium">
-                    Width (px)
-                  </Label>
-                  <Input
-                    id="resizeWidth"
-                    type="number"
-                    min={0}
-                    step={1}
-                    value={resizeWidth}
-                    onChange={(e) => setResizeWidth(parseInt(e.target.value))}
-                    className="w-full"
-                  />
+          <AnimatePresence>
+            {showAdvancedSettings && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.3 }}
+                className="space-y-4 overflow-hidden"
+              >
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label
+                      htmlFor="resizeWidth"
+                      className="text-sm font-medium"
+                    >
+                      Width (px)
+                    </Label>
+                    <Input
+                      id="resizeWidth"
+                      type="number"
+                      min={0}
+                      step={1}
+                      value={resizeWidth}
+                      onChange={(e) => setResizeWidth(parseInt(e.target.value))}
+                      className="w-full"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label
+                      htmlFor="resizeHeight"
+                      className="text-sm font-medium"
+                    >
+                      Height (px)
+                    </Label>
+                    <Input
+                      id="resizeHeight"
+                      type="number"
+                      min={0}
+                      step={1}
+                      value={resizeHeight}
+                      onChange={(e) =>
+                        setResizeHeight(parseInt(e.target.value))
+                      }
+                      className="w-full"
+                    />
+                  </div>
                 </div>
-                <div className="space-y-2 flex-1">
-                  <Label htmlFor="resizeHeight" className="text-sm font-medium">
-                    Height (px)
-                  </Label>
-                  <Input
-                    id="resizeHeight"
-                    type="number"
-                    min={0}
-                    step={1}
-                    value={resizeHeight}
-                    onChange={(e) => setResizeHeight(parseInt(e.target.value))}
-                    className="w-full"
+                <div className="flex items-center space-x-2">
+                  <Switch
+                    id="maintainAspectRatio"
+                    checked={maintainAspectRatio}
+                    onCheckedChange={setMaintainAspectRatio}
                   />
+                  <Label htmlFor="maintainAspectRatio">
+                    Maintain Aspect Ratio
+                  </Label>
                 </div>
-              </div>
-              <div className="flex items-center space-x-2 ">
-                <Switch
-                  id="maintainAspectRatio"
-                  checked={maintainAspectRatio}
-                  onCheckedChange={setMaintainAspectRatio}
-                />
-                <Label htmlFor="maintainAspectRatio">
-                  Maintain Aspect Ratio
-                </Label>
-              </div>
-              <br  className=" sm:hidden"/>
-            </div>
-          )}
+              </motion.div>
+            )}
+          </AnimatePresence>
           <Button
             onClick={onCompress}
             disabled={isCompressing}
@@ -211,19 +237,29 @@ export function CompressionSection({
             )}
           </Button>
           {isCompressing && (
-            <div className="space-y-2 ">
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              className="space-y-2"
+            >
               <Progress value={compressionProgress} className="w-full" />
               <p className="text-sm text-center text-muted-foreground">
                 {compressionProgress}% complete
               </p>
-            </div>
+            </motion.div>
           )}
-        </div>
-        <div className="sm:space-y-4 space-y-1">
-          <p className=" font-semibold text-zinc-700 dark:text-zinc-300 ">
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4, duration: 0.5 }}
+          className="space-y-4"
+        >
+          <p className="font-semibold text-zinc-700 dark:text-zinc-300">
             Image Preview
           </p>
-          <div className="relative aspect-square rounded-2xl overflow-hidden ">
+          <div className="relative aspect-square rounded-2xl overflow-hidden">
             {showComparison ? (
               <ComparisonSlider
                 original={currentImage.original}
@@ -241,9 +277,14 @@ export function CompressionSection({
               />
             )}
             {isCompressing && (
-              <div className="absolute inset-0 flex items-center justify-center bg-black/50">
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="absolute inset-0 flex items-center justify-center bg-black/50"
+              >
                 <Loader2 className="animate-spin h-10 w-10 text-white" />
-              </div>
+              </motion.div>
             )}
             <Button
               variant="ghost"
@@ -269,91 +310,105 @@ export function CompressionSection({
               </Button>
             </div>
           )}
-        </div>
-        <div className="sm:space-y-4 space-y-0 ">
-          <p className=" font-semibold text-zinc-700 dark:text-zinc-300 ">
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.6, duration: 0.5 }}
+          className="space-y-4 md:max-w-xs"
+        >
+          <p className="font-semibold text-zinc-700 dark:text-zinc-300">
             Result
           </p>
-          <ul className="text-sm  space-y-1 pb-6 ">
-            <li className=" flex justify-between">
+          <ul className="text-sm space-y-1">
+            <li className="flex justify-between">
               <span>Original Image Size</span>
               <span>{originalSize}</span>
             </li>
             {currentImage.compressed && (
               <>
-                <li className=" flex justify-between">
+                <li className="flex justify-between">
                   <span>Total Size Reduced </span>
-                  <span className="   ">{totalReduced}</span>
+                  <span>{totalReduced}</span>
                 </li>
-                <li className=" flex justify-between ">
+                <li className="flex justify-between">
                   <span>New Image Size </span>
-                  <span className="text-primary   font-semibold ">
+                  <span className="text-primary font-semibold">
                     {compressedSize}
                   </span>
                 </li>
               </>
             )}
           </ul>
-          <div
-            className={`flex gap-2  ${
-              currentImage.compressed ? "block" : "hidden"
-            }`}
-          >
-            {currentImage.compressed && currentImage.compressedSize !== -1 ? (
-              <Button asChild className="flex-1">
-                <a
-                  href={currentImage.compressed}
-                  download={`${siteData.siteName}-${currentImage.name}.${format}`}
-                >
-                  <Download className="mr-2 h-4 w-4" />
-                  Download
-                  {images.length > 1 && " All"}
-                </a>
-              </Button>
-            ) : (
-              <Button className="flex-1" disabled>
-                Download
-              </Button>
-            )}
-            {currentImage.compressedSize === -1 ? (
-              <Button
-                onClick={() => {
-                  toast.info(
-                    "Try changing the format or quality for better results."
-                  );
-                }}
-                variant="outline"
-                className="flex-1"
+          <AnimatePresence>
+            {currentImage.compressed && (
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 10 }}
+                className="gap-2 flex flex-col sm:flex-row justify-between"
               >
-                Suggest Alternatives
-              </Button>
-            ) : (
-              <Button
-                onClick={() => setShowComparison(!showComparison)}
-                variant="outline"
-                className="flex-1"
-                disabled={!currentImage.compressed}
-              >
-                <MdOutlineCompare className="mr-2 h-4 w-4" />
-                {showComparison ? (
-                  <>
-                    <span className=" sm:hidden">Dismiss</span>
-                    <span className=" sm:block hidden">Hide Compare</span>
-                  </>
+                {currentImage.compressed &&
+                currentImage.compressedSize !== -1 ? (
+                  <Button asChild className="w-full">
+                    <a
+                      href={currentImage.compressed}
+                      download={`${siteData.siteName}-${currentImage.name}.${format}`}
+                    >
+                      <Download className="mr-2 h-4 w-4" />
+                      Download
+                      {images.length > 1 && " All"}
+                    </a>
+                  </Button>
                 ) : (
-                  "Compare"
+                  <Button className="w-full" disabled>
+                    Download
+                  </Button>
                 )}
-              </Button>
+                {currentImage.compressedSize !== -1 && (
+                  <Button
+                    onClick={() => setShowComparison(!showComparison)}
+                    variant="outline"
+                    className="w-full"
+                    disabled={!currentImage.compressed}
+                  >
+                    <MdOutlineCompare className="mr-2 h-4 w-4" />
+                    {showComparison ? "Hide Compare" : "Compare"}
+                  </Button>
+                )}
+              </motion.div>
             )}
-          </div>
-          <br  className=" sm:hidden"/>
-          <Button onClick={onReset} variant="outline" className="w-full mt-4">
+          </AnimatePresence>
+
+          <AnimatePresence>
+            {currentImage.compressedSize === -1 && (
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 10 }}
+                className="border p-2 rounded-md text-sm flex flex-col gap-y-1"
+              >
+                <p className="text-destructive flex items-center gap-x-2">
+                  <span>
+                    <Info className="h-4 w-4" />
+                  </span>
+                  Compression not effective
+                </p>
+                <p>
+                  Try changing the format or compression level for better
+                  results
+                </p>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          <Button onClick={onReset} variant="outline" className="w-full">
             <RefreshCcw className="mr-2 h-4 w-4" /> Compress New Image
             {images.length > 1 && "s"}
           </Button>
-        </div>
+        </motion.div>
       </div>
-    </div>
+    </motion.div>
   );
 }
 
@@ -420,41 +475,77 @@ function ComparisonSlider({
   );
 
   return (
-    <div
+    <motion.div
       ref={sliderRef}
-      className={`relative w-full h-full     select-none cursor-ew-resize ${
+      className={`relative w-full h-full select-none cursor-ew-resize ${
         isCompressing ? "opacity-70" : ""
       }`}
       onMouseDown={handleMouseDown}
       onTouchStart={handleTouchStart}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
     >
       <Image
         src={compressed || original}
         alt="Compressed"
         fill
-        className="object-cover"
+        className="object-cover w-full h-full"
       />
-      <div
+      <motion.div
         className="absolute top-0 left-0 right-0 bottom-0 overflow-hidden"
         style={{ clipPath: `inset(0 ${100 - value}% 0 0)` }}
+        initial={{ x: "-100%" }}
+        animate={{ x: "0%" }}
+        transition={{ duration: 0.5 }}
       >
-        <Image src={original} alt="Original" fill className="object-cover" />
-      </div>
-      <div
+        <Image
+          src={original}
+          alt="Original"
+          fill
+          className="object-cover w-full h-full"
+        />
+      </motion.div>
+      <motion.div
         className="absolute top-0 bottom-0 w-0.5 bg-white"
         style={{ left: `calc(${value}% - 1px)` }}
+        drag="x"
+        dragConstraints={sliderRef}
+        dragElastic={0}
+        dragMomentum={false}
+        onDrag={(_, info) => {
+          if (sliderRef.current) {
+            const rect = sliderRef.current.getBoundingClientRect();
+            const newValue = (info.point.x / rect.width) * 100;
+            onChange(Math.max(0, Math.min(newValue, 100)));
+          }
+        }}
       >
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-8 h-8 bg-white rounded-full shadow-md flex items-center justify-center">
+        <motion.div
+          className="absolute top-1/2  -left-4 transform -translate-x-1/2 -translate-y-1/2 w-8 h-8 bg-white rounded-full shadow-md flex items-center justify-center"
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+        >
           <ChevronLeft className="w-4 h-4 text-gray-600" />
           <ChevronRight className="w-4 h-4 text-gray-600" />
-        </div>
-      </div>
-      <div className="absolute bottom-4 left-4 bg-black bg-opacity-50  text-white px-2 py-1 rounded text-sm">
+        </motion.div>
+      </motion.div>
+      <motion.div
+        className="absolute bottom-4 left-4 bg-black bg-opacity-50 text-white px-2 py-1 rounded text-sm"
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.2, duration: 0.3 }}
+      >
         Original
-      </div>
-      <div className="absolute bottom-4 right-4 bg-black bg-opacity-50 text-white px-2 py-1 rounded text-sm">
+      </motion.div>
+      <motion.div
+        className="absolute bottom-4 right-4 bg-black bg-opacity-50 text-white px-2 py-1 rounded text-sm"
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.4, duration: 0.3 }}
+      >
         Compressed
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 }

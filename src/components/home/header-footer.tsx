@@ -11,15 +11,15 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { ModeToggle } from "@/components/theme-toggle";
+import { ModeToggle } from "@/components/theme/theme-toggle";
 import Link from "next/link";
 import { siteData } from "@/data/siteMetaData";
 
 export const Header = () => {
   return (
-    <header className=" shadow ">
-      <div className=" mx-auto sm:px-10 px-4 py-3  flex justify-between items-center">
-        <Link href={"/"}>
+    <header className=" shadow flex justify-center w-full">
+      <div className=" flex items-center justify-between 2xl:justify-around w-full py-3 px-4">
+        <Link href={"/"} className=" ">
           <div className="flex items-center space-x-2">
             <ImageIcon className="h-8 w-8 text-primary" />
             <span className="text-xl font-extrbold text-primary">
@@ -27,7 +27,7 @@ export const Header = () => {
             </span>
           </div>
         </Link>
-        <nav className="hidden md:flex space-x-2 items-center ">
+        <nav className="hidden  md:flex space-x-2 items-center ">
           <Link href="/">
             <Button variant="ghost">Home</Button>
           </Link>

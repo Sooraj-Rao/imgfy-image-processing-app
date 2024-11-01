@@ -3,9 +3,8 @@
 import { useState } from "react";
 import imageCompression from "browser-image-compression";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { UploadSection } from "./upload-image";
-import { FullScreenView } from "./full-screen";
-import { CompressionSection } from "./compression";
+import { UploadSection } from "@/components/image-compressor/upload-image";
+import { CompressionSection } from "@/components/image-compressor/compression";
 
 export default function ImageCompressor() {
   const [images, setImages] = useState<
@@ -20,7 +19,7 @@ export default function ImageCompressor() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [compressionProgress, setCompressionProgress] = useState<number>(0);
   const [isCompressing, setIsCompressing] = useState<boolean>(false);
-  const [compressionLevel, setCompressionLevel] = useState(20);
+  const [compressionLevel, setCompressionLevel] = useState(50);
   const [format, setFormat] = useState<string>("jpeg");
   const [showFullScreen, setShowFullScreen] = useState(false);
   const [comparisonValue, setComparisonValue] = useState(50);
@@ -141,7 +140,7 @@ export default function ImageCompressor() {
     setImages([]);
     setCompressionProgress(0);
     setIsCompressing(false);
-    setCompressionLevel(20);
+    setCompressionLevel(50);
     setFormat("jpeg");
     setCurrentImageIndex(0);
     setShowComparison(false);
@@ -213,15 +212,6 @@ export default function ImageCompressor() {
           </Card>
         )}
       </div>
-      {showFullScreen && (
-        <FullScreenView
-          src={
-            images[currentImageIndex]?.compressed ||
-            images[currentImageIndex]?.original
-          }
-          onClose={() => setShowFullScreen(false)}
-        />
-      )}
     </div>
   );
 }
