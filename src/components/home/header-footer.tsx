@@ -2,7 +2,6 @@
 
 import { BugIcon, Image as ImageIcon, Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
 import {
   Sheet,
   SheetContent,
@@ -17,14 +16,12 @@ import { siteData } from "@/data/siteMetaData";
 
 export const Header = () => {
   return (
-    <header className=" shadow flex justify-center w-full">
+    <header className=" shadow dark:border-b flex justify-center w-full">
       <div className=" flex items-center justify-between 2xl:justify-around w-full py-3 px-4">
         <Link href={"/"} className=" ">
-          <div className="flex items-center space-x-2">
-            <ImageIcon className="h-8 w-8 text-primary" />
-            <span className="text-xl font-extrbold text-primary">
-              {siteData.siteName}
-            </span>
+          <div className="flex items-center space-x-2 text-rose-500 hover:text-primary duration-300">
+            <ImageIcon className="h-8 w-8 " />
+            <span className="text-xl font-extrabold">{siteData.siteName}</span>
           </div>
         </Link>
         <nav className="hidden  md:flex space-x-2 items-center ">

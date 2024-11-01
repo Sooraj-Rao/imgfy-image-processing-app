@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import { Upload, File } from "lucide-react";
-import { Label } from "@/components/ui/label";
+import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 
 export function UploadSection({
@@ -25,7 +25,12 @@ export function UploadSection({
   });
 
   return (
-    <div className="w-full">
+    <motion.div
+      className="w-full"
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.2 }}
+    >
       <div
         {...getRootProps()}
         className={`flex flex-col items-center justify-center border-2 border-dashed rounded-lg p-8 transition-colors ${
@@ -49,6 +54,6 @@ export function UploadSection({
           Select Files
         </Button>
       </div>
-    </div>
+    </motion.div>
   );
 }

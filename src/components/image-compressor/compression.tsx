@@ -104,16 +104,16 @@ export function CompressionSection({
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
+      transition={{ duration: 0.1 }}
       className="space-y-6"
     >
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full gap-6">
         <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.2, duration: 0.5 }}
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.1 }}
           className="col-span-1 md:col-span-2 lg:col-span-1 space-y-4"
         >
           <p className="font-semibold text-zinc-700 dark:text-zinc-300 mb-4">
@@ -165,10 +165,9 @@ export function CompressionSection({
           <AnimatePresence>
             {showAdvancedSettings && (
               <motion.div
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: "auto" }}
-                exit={{ opacity: 0, height: 0 }}
-                transition={{ duration: 0.3 }}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.1 }}
                 className="space-y-4 overflow-hidden"
               >
                 <div className="grid grid-cols-2 gap-4">
@@ -238,9 +237,9 @@ export function CompressionSection({
           </Button>
           {isCompressing && (
             <motion.div
-              initial={{ opacity: 0, y: -10 }}
+              initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.1 }}
               className="space-y-2"
             >
               <Progress value={compressionProgress} className="w-full" />
@@ -251,9 +250,9 @@ export function CompressionSection({
           )}
         </motion.div>
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4, duration: 0.5 }}
+          transition={{ duration: 0.1 }}
           className="space-y-4"
         >
           <p className="font-semibold text-zinc-700 dark:text-zinc-300">
@@ -278,9 +277,9 @@ export function CompressionSection({
             )}
             {isCompressing && (
               <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.1 }}
                 className="absolute inset-0 flex items-center justify-center bg-black/50"
               >
                 <Loader2 className="animate-spin h-10 w-10 text-white" />
@@ -312,9 +311,9 @@ export function CompressionSection({
           )}
         </motion.div>
         <motion.div
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.6, duration: 0.5 }}
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.1 }}
           className="space-y-4 md:max-w-xs"
         >
           <p className="font-semibold text-zinc-700 dark:text-zinc-300">
@@ -345,7 +344,7 @@ export function CompressionSection({
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 10 }}
+                transition={{ duration: 0.1 }}
                 className="gap-2 flex flex-col sm:flex-row justify-between"
               >
                 {currentImage.compressed &&
@@ -385,7 +384,7 @@ export function CompressionSection({
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 10 }}
+                transition={{ duration: 0.1 }}
                 className="border p-2 rounded-md text-sm flex flex-col gap-y-1"
               >
                 <p className="text-destructive flex items-center gap-x-2">
@@ -482,9 +481,9 @@ function ComparisonSlider({
       }`}
       onMouseDown={handleMouseDown}
       onTouchStart={handleTouchStart}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.5 }}
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.1 }}
     >
       <Image
         src={compressed || original}
@@ -534,7 +533,7 @@ function ComparisonSlider({
         className="absolute bottom-4 left-4 bg-black bg-opacity-50 text-white px-2 py-1 rounded text-sm"
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.2, duration: 0.3 }}
+        transition={{ duration: 0.1 }}
       >
         Original
       </motion.div>
@@ -542,7 +541,7 @@ function ComparisonSlider({
         className="absolute bottom-4 right-4 bg-black bg-opacity-50 text-white px-2 py-1 rounded text-sm"
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.4, duration: 0.3 }}
+        transition={{ duration: 0.1 }}
       >
         Compressed
       </motion.div>

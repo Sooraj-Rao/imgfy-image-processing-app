@@ -5,6 +5,7 @@ import imageCompression from "browser-image-compression";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { UploadSection } from "@/components/image-compressor/upload-image";
 import { CompressionSection } from "@/components/image-compressor/compression";
+import { motion } from "framer-motion";
 
 export default function ImageCompressor() {
   const [images, setImages] = useState<
@@ -168,16 +169,22 @@ export default function ImageCompressor() {
     <div className="h-full">
       <div className="container mx-auto px-4 py-8 sm:w-[80%] w-full flex justify-center">
         {images.length === 0 ? (
-          <Card className="sm:max-w-xl w-full bg-transparent">
-            <CardHeader>
-              <CardTitle className="text-xl font-bold text-center">
-                Upload image for Compression
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <UploadSection onUpload={handleImageUpload} />
-            </CardContent>
-          </Card>
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.2 }}
+          >
+            <Card className="sm:max-w-xl w-full bg-transparent">
+              <CardHeader>
+                <CardTitle className="text-xl font-bold text-center">
+                  Upload image for Compression
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <UploadSection onUpload={handleImageUpload} />
+              </CardContent>
+            </Card>
+          </motion.div>
         ) : (
           <Card className="w-full bg-transparent shadow-none border-none">
             <CardContent className="mt-4">

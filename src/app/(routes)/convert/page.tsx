@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { UploadSection } from "@/components/image-compressor/upload-image";
 import { ConversionSection } from "./com";
+import { motion } from "framer-motion";
 
 export default function ImageConverter() {
   const [images, setImages] = useState<
@@ -17,6 +18,7 @@ export default function ImageConverter() {
   >([]);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [conversionProgress, setConversionProgress] = useState<number>(0);
+  const [showResult, setShowResult] = useState(false);
   const [isConverting, setIsConverting] = useState<boolean>(false);
   const [format, setFormat] = useState<string>("jpeg");
 
@@ -34,7 +36,6 @@ export default function ImageConverter() {
   const handleConversion = async () => {
     if (images.length === 0) return;
 
-    setIsConverting(true);
     setConversionProgress(0);
     const convertedImages = await Promise.all(
       images.map(async (image, index) => {
@@ -60,6 +61,7 @@ export default function ImageConverter() {
 
     setImages(convertedImages);
     setIsConverting(false);
+    setShowResult(true);
   };
 
   const convertImageFormat = async (
@@ -93,6 +95,7 @@ export default function ImageConverter() {
     setConversionProgress(0);
     setIsConverting(false);
     setFormat("jpeg");
+    setShowResult(false);
     setCurrentImageIndex(0);
   };
 
@@ -110,21 +113,27 @@ export default function ImageConverter() {
 
   return (
     <div className="h-full">
-      <div className="container mx-auto px-4 py-8 sm:w-[80%] w-full flex justify-center">
+      <div className="container mx-auto sm:px-4 py-8 sm:w-[80%] w-full flex justify-center">
         {images.length === 0 ? (
-          <Card className="sm:max-w-xl w-full bg-transparent">
-            <CardHeader>
-              <CardTitle className="text-xl font-bold text-center">
-                Upload image for Conversion
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <UploadSection onUpload={handleImageUpload} />
-            </CardContent>
-          </Card>
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.2 }}
+          >
+            <Card className="sm:max-w-xl w-full bg-transparent">
+              <CardHeader>
+                <CardTitle className="text-xl font-bold text-center">
+                  Upload image for Conversion
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <UploadSection onUpload={handleImageUpload} />
+              </CardContent>
+            </Card>
+          </motion.div>
         ) : (
           <Card className="w-full bg-transparent shadow-none border-none">
-            <CardContent className="mt-4">
+            <CardContent className="mt-4 px-0 mx-4 sm:mx-0">
               <ConversionSection
                 images={images}
                 currentImageIndex={currentImageIndex}
@@ -132,10 +141,10 @@ export default function ImageConverter() {
                 setFormat={setFormat}
                 isConverting={isConverting}
                 conversionProgress={conversionProgress}
+                setIsConverting={setIsConverting}
                 onConvert={handleConversion}
                 onReset={resetConverter}
-                onPrevImage={handlePrevImage}
-                onNextImage={handleNextImage}
+                showResult={showResult}
               />
             </CardContent>
           </Card>

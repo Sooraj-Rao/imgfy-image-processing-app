@@ -99,7 +99,7 @@ body {
 
 .DarkLoader {
   animation: DarkLoader 2s infinite linear;
-  background: linear-gradient(to left, rgb(36, 46, 54) 4%, #3d4149 25%, rgb(36, 46, 54) 36%);
+  background: linear-gradient(-45deg, rgb(25, 24, 23) 4%, #373535 25%, rgb(25, 24, 23) 36%);
   background-size: 1000px 100%;
 }
 
@@ -115,7 +115,7 @@ body {
 
 .Loader {
   animation: Loader 2s infinite linear;
-  background: linear-gradient(130deg, #5b6873, _#71342d, _#5b6873);
+  background: linear-gradient(130deg, rgb(224, 224, 225) 4%, rgb(204, 204, 206)25%, rgb(224, 224, 225)36%);
   background-size: 1000px 100%;
 }
 

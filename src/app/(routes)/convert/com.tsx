@@ -12,9 +12,17 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Download, Loader2, RefreshCcw, FileIcon, X } from "lucide-react";
+import {
+  Download,
+  Loader2,
+  RefreshCcw,
+  FileIcon,
+  X,
+  ImageIcon,
+} from "lucide-react";
 import { siteData } from "@/data/siteMetaData";
 import { motion, AnimatePresence } from "framer-motion";
+import { TextSlice } from "@/utils/text-slice";
 
 export function ConversionSection({
   images,
@@ -24,8 +32,9 @@ export function ConversionSection({
   isConverting,
   conversionProgress,
   onConvert,
+  showResult,
   onReset,
-  onRemoveImage,
+  setIsConverting,
 }: {
   images: {
     original: string;
@@ -34,15 +43,15 @@ export function ConversionSection({
   }[];
   currentImageIndex: number;
   format: string;
+  showResult: boolean;
   setFormat: (value: string) => void;
   isConverting: boolean;
   conversionProgress: number;
+  setIsConverting: (val: boolean) => void;
   onConvert: () => void;
   onReset: () => void;
-  onRemoveImage: (index: number) => void;
 }) {
   const currentImage = images[currentImageIndex];
-  const [showResult, setShowResult] = useState(false);
 
   const formatOptions = [
     { value: "jpeg", label: "JPEG" },
@@ -53,42 +62,46 @@ export function ConversionSection({
     { value: "bmp", label: "BMP" },
   ];
 
-  const handleConvert = () => {
+  const handleConvert = async () => {
+    setIsConverting(true);
     onConvert();
-    setShowResult(true);
   };
 
   const handleReset = () => {
     onReset();
-    setShowResult(false);
   };
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-      className="space-y-6 max-w-2xl mx-auto"
+      exit={{ opacity: 0, y: -10 }}
+      transition={{ duration: 0.1 }}
+      className=" sm:max-w-xl  mx-auto dark:border rounded-lg shadow-lg"
     >
-      <Card className="w-full">
+      <Card className="w-full bg-transparent border-none shadow-none ">
         <CardHeader>
           <CardTitle>File Details</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="flex items-center justify-between p-2 bg-muted rounded-md">
-            <div className="flex items-center space-x-2">
-              <FileIcon className="h-8 w-8 text-primary" />
-              <div>
-                <p className="font-medium">{currentImage.name}</p>
-                <p className="text-sm text-muted-foreground">
-                  {currentImage.name.split(".").pop()?.toUpperCase()}
-                </p>
-              </div>
+          <div className="flex items-center relative justify-between p-2 bg-muted/50 rounded-md">
+            <div className=" sm:hidden ">
+              <ImageDetails
+                name={TextSlice(currentImage.name, 14, true) || ""}
+                format=""
+              />
+            </div>
+            <div className=" sm:block hidden">
+              <ImageDetails
+                name={TextSlice(currentImage.name, 30, true) || ""}
+                format=""
+              />
             </div>
             <Button
               variant="ghost"
               size="icon"
-              onClick={() => window.location.reload()}
+              onClick={handleReset}
+              className=" absolute -top-4 -right-4 sm:top-2 sm:right-2 shadow-md sm:bg-transparent bg-muted rounded-full scale-75"
               aria-label="Remove image"
             >
               <X className="h-4 w-4" />
@@ -96,27 +109,23 @@ export function ConversionSection({
           </div>
         </CardContent>
       </Card>
-
       <AnimatePresence mode="wait">
         {!showResult ? (
           <motion.div
             key="settings"
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.3 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.1 }}
           >
-            <Card>
-              <CardHeader>
-                <CardTitle>Conversion Settings</CardTitle>
-              </CardHeader>
+            <Card className=" bg-transparent border-none shadow-none">
               <CardContent className="space-y-4">
-                <div className="space-y-2">
+                <div className="space-y-2 flex justify-between items-center">
                   <Label htmlFor="format" className="text-sm font-medium">
                     Convert to Format
                   </Label>
                   <Select value={format} onValueChange={setFormat}>
-                    <SelectTrigger id="format" className="w-full">
+                    <SelectTrigger id="format" className="w-1/2">
                       <SelectValue placeholder="Select format" />
                     </SelectTrigger>
                     <SelectContent>
@@ -129,6 +138,12 @@ export function ConversionSection({
                   </Select>
                 </div>
 
+                {isConverting && (
+                  <div className=" hidden dark:block h-20  DarkLoader w-full rounded-md "></div>
+                )}
+                {isConverting && (
+                  <div className=" dark:hidden block h-20  Loader w-full rounded-md "></div>
+                )}
                 <Button
                   onClick={handleConvert}
                   disabled={isConverting}
@@ -149,27 +164,30 @@ export function ConversionSection({
         ) : (
           <motion.div
             key="result"
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.3 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.1 }}
           >
-            <Card>
+            <Card className="bg-transparent border-none shadow-none">
               <CardHeader>
-                <CardTitle>Conversion Result</CardTitle>
+                <CardTitle>Converted File</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 {currentImage.converted ? (
                   <div className="space-y-4">
-                    <div className="space-y-2">
-                      <Label className="text-sm font-medium">
-                        Converted File
-                      </Label>
-                      <div className="flex items-center space-x-2 p-2 bg-muted rounded-md">
-                        <FileIcon className="h-5 w-5 text-primary" />
-                        <p className="text-sm">
-                          {currentImage.name.split(".")[0]}.{format}
-                        </p>
+                    <div className="space-y-2 bg-muted/50 rounded-md p-2 ">
+                      <div className=" sm:hidden ">
+                        <ImageDetails
+                          name={TextSlice(currentImage.name, 14, true) || ""}
+                          format={format}
+                        />
+                      </div>
+                      <div className=" sm:block hidden">
+                        <ImageDetails
+                          name={TextSlice(currentImage.name, 30, true) || ""}
+                          format={format}
+                        />
                       </div>
                     </div>
                     <Button asChild className="w-full">
@@ -183,38 +201,48 @@ export function ConversionSection({
                         Download Converted Image
                       </a>
                     </Button>
+                    <Button
+                      onClick={handleReset}
+                      variant="outline"
+                      className="w-full"
+                    >
+                      <RefreshCcw className="mr-2 h-4 w-4" /> Convert New Image
+                    </Button>
                   </div>
                 ) : (
-                  <p className="text-sm text-muted-foreground">
-                    Conversion failed. Please try again.
-                  </p>
+                  !isConverting && (
+                    <p className="text-sm text-muted-foreground">
+                      Conversion failed. Please try again.
+                    </p>
+                  )
                 )}
-                <Button
-                  onClick={handleReset}
-                  variant="outline"
-                  className="w-full"
-                >
-                  <RefreshCcw className="mr-2 h-4 w-4" /> Convert New Image
-                </Button>
               </CardContent>
             </Card>
           </motion.div>
         )}
       </AnimatePresence>
-
-      {isConverting && (
-        <motion.div
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -10 }}
-          className="space-y-2"
-        >
-          <Progress value={conversionProgress} className="w-full" />
-          <p className="text-sm text-center text-muted-foreground">
-            {Math.round(conversionProgress)}% complete
-          </p>
-        </motion.div>
-      )}
     </motion.div>
   );
 }
+
+export const ImageDetails = ({
+  name,
+  format,
+}: {
+  name: string;
+  format: string;
+}) => {
+  return (
+    <div className="flex items-center space-x-2">
+      <ImageIcon className="h-8 w-8 text-primary" />
+      <div>
+        <p className="font-medium">
+          {format ? `${name.slice(0, name.lastIndexOf("."))}.${format} ` : name}
+        </p>
+        <p className="text-sm text-muted-foreground uppercase">
+          {format ? format : name.split(".").pop()}
+        </p>
+      </div>
+    </div>
+  );
+};

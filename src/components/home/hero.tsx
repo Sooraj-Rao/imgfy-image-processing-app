@@ -99,13 +99,13 @@ export default function Hero() {
       );
     } else {
       toast.info(
-        "To install our app, you use the browser's 'Add to Home Screen' or 'Install' option."
+        "To install our app, use the browser's 'Add to Home Screen' or 'Install' option."
       );
     }
   };
 
   return (
-    <div className="min-h-[calc(100vh-200px)] bg-gradient-to-b from-background to-secondary/20 flex flex-col items-center justify-center p-4 sm:p-8">
+    <div className="min-h-[calc(100vh-120px)] flex flex-col items-center justify-center p-4 sm:p-8">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -113,22 +113,22 @@ export default function Hero() {
         className="text-center max-w-4xl mx-auto"
       >
         <motion.h1
-          className="text-2xl sm:text-5xl md:text-6xl font-extrabold tracking-tight "
+          className="text-2xl sm:text-5xl md:text-6xl font-extrabold tracking-tight"
           initial={{ scale: 0.9 }}
           animate={{ scale: 1 }}
           transition={{ type: "spring", stiffness: 200, damping: 10 }}
         >
-          <GradientText>Fast, High-Quality Image</GradientText>
+          <GradientText>Fast, Simple, and Powerful</GradientText>
           <br />
-          <GradientText>Compression in Seconds</GradientText>
+          <GradientText>Image Processor</GradientText>
         </motion.h1>
         <motion.p
-          className="mt-6 text-sm sm:text-xl text-muted-foreground"
+          className="mt-4 text-sm sm:text-xl text-muted-foreground"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.2 }}
         >
-          Reduce file size without compromising quality
+          Image Compression and Conversion Made in Seconds
         </motion.p>
       </motion.div>
 
@@ -138,9 +138,15 @@ export default function Hero() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.4 }}
       >
-        <Link href="/image-compressor">
+        <Link href="/compress">
           <Button size="lg" className="group">
-            Compress Now
+            Compressor
+            <ArrowUpRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+          </Button>
+        </Link>
+        <Link href="/convert">
+          <Button size="lg" className="group">
+            Converter
             <ArrowUpRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
           </Button>
         </Link>
@@ -155,9 +161,9 @@ export default function Hero() {
               ? "Install App"
               : installCount === 1
               ? "Confirm Installation"
-              : installCount === 5
-              ? "Failed Installation"
-              : "Try Installation Again"}
+              : installCount >= 3
+              ? "Try Installation Again"
+              : "Failed Installation"}
             <Download className="ml-2 h-4 w-4 transition-transform group-hover:translate-y-1" />
           </Button>
         )}
@@ -179,32 +185,6 @@ export default function Hero() {
           </Button>
         </motion.div>
       )}
-
-      {/* <motion.div
-        className="mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.8 }}
-      >
-        {["Fast", "Efficient", "Secure"].map((feature, index) => (
-          <Card
-            key={feature}
-            className="p-6 text-center hover:shadow-lg transition-shadow"
-          >
-            <motion.div
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ delay: 1 + index * 0.2 }}
-            >
-              <ImageIcon className="h-12 w-12 mx-auto mb-4 text-primary" />
-              <h2 className="text-xl font-semibold mb-2">{feature}</h2>
-              <p className="text-muted-foreground">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              </p>
-            </motion.div>
-          </Card>
-        ))}
-      </motion.div> */}
 
       {showTroubleshoot && (
         <motion.div
