@@ -1,1 +1,1 @@
-ImgCompressor - A Super fast Image Compressor App
+Imgfy - A Super fast Image Compressor and Image Converter App

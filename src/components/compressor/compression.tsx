@@ -146,9 +146,10 @@ export function CompressionSection({
                 <SelectValue placeholder="Select format" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="jpeg">JPEG</SelectItem>
+                <SelectItem value="jpeg">
+                  JPEG <span className=" text-xs px-2">(Preferred)</span>
+                </SelectItem>
                 <SelectItem value="webp">WebP</SelectItem>
-                <SelectItem value="png">PNG</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -276,14 +277,9 @@ export function CompressionSection({
               />
             )}
             {isCompressing && (
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.1 }}
-                className="absolute inset-0 flex items-center justify-center bg-black/50"
-              >
+              <div className="absolute inset-0 flex items-center justify-center bg-black/50">
                 <Loader2 className="animate-spin h-10 w-10 text-white" />
-              </motion.div>
+              </div>
             )}
             <Button
               variant="ghost"
@@ -339,20 +335,15 @@ export function CompressionSection({
               </>
             )}
           </ul>
-          <AnimatePresence>
+          <>
             {currentImage.compressed && (
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.1 }}
-                className="gap-2 flex flex-col sm:flex-row justify-between"
-              >
+              <div className="gap-2 flex flex-col sm:flex-row justify-between">
                 {currentImage.compressed &&
                 currentImage.compressedSize !== -1 ? (
                   <Button asChild className="w-full">
                     <a
                       href={currentImage.compressed}
-                      download={`${siteData.siteName}-${currentImage.name}.${format}`}
+                      download={`${siteData.siteName}-Compressed-${currentImage.name}.${format}`}
                     >
                       <Download className="mr-2 h-4 w-4" />
                       Download
@@ -375,19 +366,14 @@ export function CompressionSection({
                     {showComparison ? "Hide Compare" : "Compare"}
                   </Button>
                 )}
-              </motion.div>
+              </div>
             )}
-          </AnimatePresence>
+          </>
 
-          <AnimatePresence>
+          <>
             {currentImage.compressedSize === -1 && (
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.1 }}
-                className="border p-2 rounded-md text-sm flex flex-col gap-y-1"
-              >
-                <p className="text-destructive flex items-center gap-x-2">
+              <div className="border p-2 rounded-md text-sm flex flex-col gap-y-1">
+                <p className=" text-primary flex items-center gap-x-2">
                   <span>
                     <Info className="h-4 w-4" />
                   </span>
@@ -397,9 +383,9 @@ export function CompressionSection({
                   Try changing the format or compression level for better
                   results
                 </p>
-              </motion.div>
+              </div>
             )}
-          </AnimatePresence>
+          </>
 
           <Button onClick={onReset} variant="outline" className="w-full">
             <RefreshCcw className="mr-2 h-4 w-4" /> Compress New Image
@@ -425,7 +411,6 @@ function ComparisonSlider({
   isCompressing?: boolean;
 }) {
   const sliderRef = useRef<HTMLDivElement>(null);
-
   const handleInteraction = useCallback(
     (clientX: number) => {
       if (!sliderRef.current) return;
@@ -435,116 +420,71 @@ function ComparisonSlider({
     },
     [onChange]
   );
-
   const handleMouseDown = useCallback(
     (event: React.MouseEvent<HTMLDivElement>) => {
       event.preventDefault();
       handleInteraction(event.clientX);
-
       const handleMouseMove = (e: MouseEvent) => handleInteraction(e.clientX);
-
       const handleMouseUp = () => {
         document.removeEventListener("mousemove", handleMouseMove);
         document.removeEventListener("mouseup", handleMouseUp);
       };
-
       document.addEventListener("mousemove", handleMouseMove);
       document.addEventListener("mouseup", handleMouseUp);
     },
     [handleInteraction]
   );
-
   const handleTouchStart = useCallback(
     (event: React.TouchEvent<HTMLDivElement>) => {
       event.preventDefault();
       handleInteraction(event.touches[0].clientX);
-
       const handleTouchMove = (e: TouchEvent) =>
         handleInteraction(e.touches[0].clientX);
-
       const handleTouchEnd = () => {
         document.removeEventListener("touchmove", handleTouchMove);
         document.removeEventListener("touchend", handleTouchEnd);
       };
-
       document.addEventListener("touchmove", handleTouchMove);
       document.addEventListener("touchend", handleTouchEnd);
     },
     [handleInteraction]
   );
-
   return (
-    <motion.div
+    <div
       ref={sliderRef}
-      className={`relative w-full h-full select-none cursor-ew-resize ${
-        isCompressing ? "opacity-70" : ""
-      }`}
+      className={`relative w-full h-full select-none cursor-ew-resize
+      ${isCompressing && " opacity-70"}
+      `}
       onMouseDown={handleMouseDown}
       onTouchStart={handleTouchStart}
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.1 }}
     >
       <Image
         src={compressed || original}
         alt="Compressed"
         fill
-        className="object-cover w-full h-full"
+        className="object-cover"
       />
-      <motion.div
+      <div
         className="absolute top-0 left-0 right-0 bottom-0 overflow-hidden"
         style={{ clipPath: `inset(0 ${100 - value}% 0 0)` }}
-        initial={{ x: "-100%" }}
-        animate={{ x: "0%" }}
-        transition={{ duration: 0.5 }}
       >
-        <Image
-          src={original}
-          alt="Original"
-          fill
-          className="object-cover w-full h-full"
-        />
-      </motion.div>
-      <motion.div
+        <Image src={original} alt="Original" fill className="object-cover" />
+      </div>
+      <div
         className="absolute top-0 bottom-0 w-0.5 bg-white"
         style={{ left: `calc(${value}% - 1px)` }}
-        drag="x"
-        dragConstraints={sliderRef}
-        dragElastic={0}
-        dragMomentum={false}
-        onDrag={(_, info) => {
-          if (sliderRef.current) {
-            const rect = sliderRef.current.getBoundingClientRect();
-            const newValue = (info.point.x / rect.width) * 100;
-            onChange(Math.max(0, Math.min(newValue, 100)));
-          }
-        }}
       >
-        <motion.div
-          className="absolute top-1/2  -left-4 transform -translate-x-1/2 -translate-y-1/2 w-8 h-8 bg-white rounded-full shadow-md flex items-center justify-center"
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-        >
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-8 h-8 bg-white rounded-full shadow-md flex items-center justify-center">
           <ChevronLeft className="w-4 h-4 text-gray-600" />
           <ChevronRight className="w-4 h-4 text-gray-600" />
-        </motion.div>
-      </motion.div>
-      <motion.div
-        className="absolute bottom-4 left-4 bg-black bg-opacity-50 text-white px-2 py-1 rounded text-sm"
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.1 }}
-      >
+        </div>
+      </div>
+      <div className="absolute bottom-4 left-4 bg-black bg-opacity-50 text-white px-2 py-1 rounded text-sm">
         Original
-      </motion.div>
-      <motion.div
-        className="absolute bottom-4 right-4 bg-black bg-opacity-50 text-white px-2 py-1 rounded text-sm"
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.1 }}
-      >
+      </div>
+      <div className="absolute bottom-4 right-4 bg-black bg-opacity-50 text-white px-2 py-1 rounded text-sm">
         Compressed
-      </motion.div>
-    </motion.div>
+      </div>
+    </div>
   );
 }

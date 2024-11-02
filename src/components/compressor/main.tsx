@@ -3,9 +3,10 @@
 import { useState } from "react";
 import imageCompression from "browser-image-compression";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { UploadSection } from "./upload-image";
-import { FullScreenView } from "./full-screen";
-import { CompressionSection } from "./compression";
+import { UploadSection } from "@/components/compressor/upload-image";
+import { CompressionSection } from "@/components/compressor/compression";
+import { motion } from "framer-motion";
+import { FullScreenView } from "@/components/compressor/full-screen";
 
 export default function ImageCompressor() {
   const [images, setImages] = useState<
@@ -20,7 +21,7 @@ export default function ImageCompressor() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [compressionProgress, setCompressionProgress] = useState<number>(0);
   const [isCompressing, setIsCompressing] = useState<boolean>(false);
-  const [compressionLevel, setCompressionLevel] = useState(20);
+  const [compressionLevel, setCompressionLevel] = useState(25);
   const [format, setFormat] = useState<string>("jpeg");
   const [showFullScreen, setShowFullScreen] = useState(false);
   const [comparisonValue, setComparisonValue] = useState(50);
@@ -71,7 +72,7 @@ export default function ImageCompressor() {
           const outputBlob = await convertImageFormat(compressedFile, format);
           const compressedUrl = URL.createObjectURL(outputBlob);
           const compressedSize = outputBlob.size;
-
+          console.log(compressedSize);
           if (compressedSize >= image.originalSize) {
             return { ...image, compressed: null, compressedSize: -1 };
           }
@@ -141,7 +142,7 @@ export default function ImageCompressor() {
     setImages([]);
     setCompressionProgress(0);
     setIsCompressing(false);
-    setCompressionLevel(20);
+    setCompressionLevel(50);
     setFormat("jpeg");
     setCurrentImageIndex(0);
     setShowComparison(false);
@@ -167,18 +168,34 @@ export default function ImageCompressor() {
 
   return (
     <div className="h-full">
+      {showFullScreen && (
+        <FullScreenView
+          onClose={() => setShowFullScreen(false)}
+          src={
+            images[currentImageIndex].compressed ||
+            images[currentImageIndex].original
+          }
+        />
+      )}
       <div className="container mx-auto px-4 py-8 sm:w-[80%] w-full flex justify-center">
         {images.length === 0 ? (
-          <Card className="sm:max-w-xl w-full bg-transparent">
-            <CardHeader>
-              <CardTitle className="text-xl font-bold text-center">
-                Upload image for Compression
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <UploadSection onUpload={handleImageUpload} />
-            </CardContent>
-          </Card>
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.2 }}
+          >
+            <Card className="bg-background/60 backdrop-blur-sm">
+              <CardHeader>
+                <CardTitle className="text-xl font-bold text-center">
+                  Upload image for Compression
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <UploadSection onUpload={handleImageUpload} />
+              </CardContent>
+            </Card>
+          </motion.div>
         ) : (
           <Card className="w-full bg-transparent shadow-none border-none">
             <CardContent className="mt-4">
@@ -213,15 +230,6 @@ export default function ImageCompressor() {
           </Card>
         )}
       </div>
-      {showFullScreen && (
-        <FullScreenView
-          src={
-            images[currentImageIndex]?.compressed ||
-            images[currentImageIndex]?.original
-          }
-          onClose={() => setShowFullScreen(false)}
-        />
-      )}
     </div>
   );
 }

@@ -21,10 +21,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" 
-    className={GeistSans.className}
-    >
-      <body>
+    <html lang="en" className={GeistSans.className}>
+      <body className="sm:overflow-hiddsen ">
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
@@ -34,7 +32,7 @@ export default function RootLayout({
           <Toaster />
           <div className="flex flex-col min-h-screen justify-around">
             <Header />
-            <div className=" min-h-[calc(100vh-120px)]">{children}</div>
+            <div className=" min-h-[calc(100vh-120px)] ">{children}</div>
             <Footer />
           </div>
         </ThemeProvider>

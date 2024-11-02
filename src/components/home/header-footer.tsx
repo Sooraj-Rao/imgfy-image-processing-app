@@ -86,7 +86,7 @@ export const Footer = () => (
       <Link
         title="Open Portfolio"
         target="_blank"
-        className=" ml-1 text-primary hover:underline"
+        className=" ml-1 text-primary font-semibold hover:underline"
         href={siteData.portfolio}
       >
         Sooraj
