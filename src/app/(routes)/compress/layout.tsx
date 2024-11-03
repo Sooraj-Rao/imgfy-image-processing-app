@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     title: "Fastest Image Compression",
     description:
       "Achieve high-quality, fast image compression with ease. Perfect for optimizing images for web and social media.",
-    url: "https://imgfy.soorajrao.in",
+    url: "https://imgfy.soorajrao.in/compress",
     type: "website",
   },
   twitter: {

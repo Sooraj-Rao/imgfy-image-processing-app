@@ -138,18 +138,7 @@ export default function Hero() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.4 }}
       >
-        <Link href="/compress">
-          <Button size="lg" className="group">
-            Compressor
-            <ArrowUpRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
-          </Button>
-        </Link>
-        <Link href="/convert">
-          <Button size="lg" className="group">
-            Converter
-            <ArrowUpRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
-          </Button>
-        </Link>
+        <NavButtons size="lg" />
         {isInstallable && (
           <Button
             onClick={handleInstallClick}
@@ -232,3 +221,38 @@ export default function Hero() {
     </div>
   );
 }
+
+export const NavButtons = ({
+  size,
+  path,
+}: {
+  size: "lg" | "sm";
+  path?: string;
+}) => {
+  return (
+    <>
+      <Link
+        href="/compress"
+        className={`
+      ${path?.includes("compress") && "hidden"}
+      `}
+      >
+        <Button size={size} className="group">
+          Compressor
+          <ArrowUpRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+        </Button>
+      </Link>
+      <Link
+        href="/convert"
+        className={`
+       ${path?.includes("convert") && "hidden"}
+       `}
+      >
+        <Button size={size} className="group">
+          Converter
+          <ArrowUpRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+        </Button>
+      </Link>
+    </>
+  );
+};

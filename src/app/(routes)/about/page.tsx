@@ -107,7 +107,7 @@ export default function AboutPage() {
         <CardContent>
           <div className="flex flex-col  items-start justify-between gap-4 sm:gap-8">
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-              <p className="text-sm sm:text-base ">
+              <p className="text-xs sm:text-base ">
                 Questions or feedback? We&apos;re here to help!
               </p>
               <AnimatedButton

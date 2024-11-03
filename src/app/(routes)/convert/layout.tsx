@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     title: "Simple Image Conversion",
     description:
       "Convert images to different formats quickly with high quality. Ideal for optimizing photos for various uses.",
-    url: "https://imgfy.soorajrao.in",
+    url: "https://imgfy.soorajrao.in/convert",
     type: "website",
   },
   twitter: {

@@ -72,7 +72,6 @@ export default function ImageCompressor() {
           const outputBlob = await convertImageFormat(compressedFile, format);
           const compressedUrl = URL.createObjectURL(outputBlob);
           const compressedSize = outputBlob.size;
-          console.log(compressedSize);
           if (compressedSize >= image.originalSize) {
             return { ...image, compressed: null, compressedSize: -1 };
           }
@@ -167,7 +166,7 @@ export default function ImageCompressor() {
   };
 
   return (
-    <div className="h-full">
+    <div className="h-full w-full">
       {showFullScreen && (
         <FullScreenView
           onClose={() => setShowFullScreen(false)}
@@ -177,7 +176,7 @@ export default function ImageCompressor() {
           }
         />
       )}
-      <div className="container mx-auto px-4 py-8 sm:w-[80%] w-full flex justify-center">
+      <div className="container mx-auto px-4 py-8 sm:w-[80%]  w-full flex justify-center">
         {images.length === 0 ? (
           <motion.div
             key="upload"
@@ -185,8 +184,9 @@ export default function ImageCompressor() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.2 }}
+            className=" w-[40rem]"
           >
-            <Card className="bg-background/60 backdrop-blur-sm">
+            <Card className="bg-background/60 backdrop-blur-sm w-full">
               <CardHeader>
                 <CardTitle className="text-xl font-bold text-center">
                   Upload Image for Compression

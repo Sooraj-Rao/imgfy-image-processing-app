@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { BugIcon, Image as ImageIcon, Menu } from "lucide-react";
+import { ArrowUpRight, BugIcon, Image as ImageIcon, Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -14,10 +14,12 @@ import {
 import { ModeToggle } from "@/components/theme/theme-toggle";
 import Link from "next/link";
 import { siteData } from "@/data/siteMetaData";
+import { usePathname } from "next/navigation";
+import { NavButtons } from "./hero";
 
 export const Header = () => {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
-
+  const path = usePathname();
   return (
     <header className="shadow dark:border-b flex justify-center w-full">
       <div className="flex items-center justify-between 2xl:justify-around w-full py-3 px-4">
@@ -29,19 +31,28 @@ export const Header = () => {
         </Link>
         <nav className="hidden md:flex space-x-2 items-center ">
           <Link href="/">
-            <Button variant="ghost">Home</Button>
+            <Button variant="ghost" className="scale-90">
+              Home
+            </Button>
           </Link>
           <Link href="/about">
-            <Button variant="ghost">About</Button>
+            <Button variant="ghost" className="scale-90">
+              About
+            </Button>
           </Link>
-
+          {path !== "/" && (
+            <>
+              <NavButtons size="sm" path={path} />
+            </>
+          )}
           <Link
             href={siteData.report + siteData.siteName}
-            className="flex items-center gap-1"
+            className="flex items-center gap-1 scale-90"
+            title="Opens form for reporting"
           >
             <Button variant="ghost">
               <BugIcon />
-              Report an Issue
+              <span>Report an Issue</span>
             </Button>
           </Link>
           <ModeToggle />
@@ -63,7 +74,11 @@ export const Header = () => {
                   <Link href="/about" onClick={() => setIsSheetOpen(false)}>
                     <Button variant="ghost">About</Button>
                   </Link>
-
+                  {path !== "/" && (
+                    <>
+                      <NavButtons size="sm" path={path} />
+                    </>
+                  )}
                   <Link
                     href={siteData.report + siteData.siteName}
                     className="flex items-center gap-1"
