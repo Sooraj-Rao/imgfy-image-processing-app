@@ -180,6 +180,7 @@ export default function ImageCompressor() {
       <div className="container mx-auto px-4 py-8 sm:w-[80%] w-full flex justify-center">
         {images.length === 0 ? (
           <motion.div
+            key="upload"
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
@@ -188,7 +189,7 @@ export default function ImageCompressor() {
             <Card className="bg-background/60 backdrop-blur-sm">
               <CardHeader>
                 <CardTitle className="text-xl font-bold text-center">
-                  Upload image for Compression
+                  Upload Image for Compression
                 </CardTitle>
               </CardHeader>
               <CardContent>

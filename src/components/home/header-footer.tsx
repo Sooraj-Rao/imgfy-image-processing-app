@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { BugIcon, Image as ImageIcon, Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -15,16 +16,18 @@ import Link from "next/link";
 import { siteData } from "@/data/siteMetaData";
 
 export const Header = () => {
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
+
   return (
-    <header className=" shadow dark:border-b flex justify-center w-full">
-      <div className=" flex items-center justify-between 2xl:justify-around w-full py-3 px-4">
-        <Link href={"/"} className=" ">
+    <header className="shadow dark:border-b flex justify-center w-full">
+      <div className="flex items-center justify-between 2xl:justify-around w-full py-3 px-4">
+        <Link href={"/"} className="">
           <div className="flex items-center space-x-2 text-rose-500 hover:text-primary duration-300">
             <ImageIcon className="h-8 w-8 " />
             <span className="text-xl font-extrabold">{siteData.siteName}</span>
           </div>
         </Link>
-        <nav className="hidden  md:flex space-x-2 items-center ">
+        <nav className="hidden md:flex space-x-2 items-center ">
           <Link href="/">
             <Button variant="ghost">Home</Button>
           </Link>
@@ -34,7 +37,7 @@ export const Header = () => {
 
           <Link
             href={siteData.report + siteData.siteName}
-            className=" flex items-center gap-1"
+            className="flex items-center gap-1"
           >
             <Button variant="ghost">
               <BugIcon />
@@ -43,7 +46,7 @@ export const Header = () => {
           </Link>
           <ModeToggle />
         </nav>
-        <Sheet>
+        <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
           <SheetTrigger asChild>
             <Button variant="ghost" size="icon" className="md:hidden">
               <Menu className="h-6 w-6" />
@@ -54,16 +57,17 @@ export const Header = () => {
               <SheetTitle>Menu</SheetTitle>
               <SheetDescription>
                 <nav className="flex flex-col items-center space-y-2 mt-4">
-                  <Link href="/">
+                  <Link href="/" onClick={() => setIsSheetOpen(false)}>
                     <Button variant="ghost">Home</Button>
                   </Link>
-                  <Link href="/about">
+                  <Link href="/about" onClick={() => setIsSheetOpen(false)}>
                     <Button variant="ghost">About</Button>
                   </Link>
 
                   <Link
                     href={siteData.report + siteData.siteName}
-                    className=" flex items-center gap-1"
+                    className="flex items-center gap-1"
+                    onClick={() => setIsSheetOpen(false)}
                   >
                     <Button variant="ghost">Report an Issue</Button>
                   </Link>
@@ -79,18 +83,20 @@ export const Header = () => {
 };
 
 export const Footer = () => (
-  <footer className=" flex justify-evenly w-full  border-t py-4 sm:text-sm text-xs  dark:text-gray-200 text-zinc-900">
+  <footer className="flex justify-evenly w-full border-t py-4 sm:text-sm text-xs dark:text-gray-200 text-zinc-900">
     <p>© 2024 {siteData.siteName}</p>
-    <p>
-      Developed by
-      <Link
-        title="Open Portfolio"
-        target="_blank"
-        className=" ml-1 text-primary font-semibold hover:underline"
-        href={siteData.portfolio}
-      >
-        Sooraj
-      </Link>
-    </p>
+    <Link
+      title="Open Portfolio"
+      className="group"
+      target="_blank"
+      href={siteData.portfolio}
+    >
+      <p>
+        Developed by
+        <span className="ml-1 text-primary font-semibold group-hover:underline">
+          Sooraj
+        </span>
+      </p>
+    </Link>
   </footer>
 );

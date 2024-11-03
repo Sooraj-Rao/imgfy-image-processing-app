@@ -22,11 +22,13 @@ import {
   Loader2,
   Maximize2,
   RefreshCcw,
+  X,
 } from "lucide-react";
 import { useCallback, useRef } from "react";
-import { MdOutlineCompare } from "react-icons/md";
+import { MdOutlineCompare, MdRemove } from "react-icons/md";
 import { SizeFormatter } from "@/utils/size-convert";
 import { siteData } from "@/data/siteMetaData";
+import { CgRemove } from "react-icons/cg";
 import { motion, AnimatePresence } from "framer-motion";
 
 export function CompressionSection({
@@ -171,7 +173,7 @@ export function CompressionSection({
                 transition={{ duration: 0.1 }}
                 className="space-y-4 overflow-hidden"
               >
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-2 gap-4 px-1">
                   <div className="space-y-2">
                     <Label
                       htmlFor="resizeWidth"
@@ -312,7 +314,11 @@ export function CompressionSection({
           transition={{ duration: 0.1 }}
           className="space-y-4 md:max-w-xs"
         >
-          <p className="font-semibold text-zinc-700 dark:text-zinc-300">
+          <p
+            className={`font-semibold text-zinc-700 dark:text-zinc-300
+          ${!currentImage.compressed ? "sm:invisible hidden sm:block" : "sm:visible block"}
+          `}
+          >
             Result
           </p>
           <ul className="text-sm space-y-1">
@@ -386,10 +392,17 @@ export function CompressionSection({
               </div>
             )}
           </>
-
           <Button onClick={onReset} variant="outline" className="w-full">
-            <RefreshCcw className="mr-2 h-4 w-4" /> Compress New Image
-            {images.length > 1 && "s"}
+            {currentImage.compressed ? (
+              <>
+                <RefreshCcw className="mr-1 h-4 w-4" /> Compress New Image
+                {images.length > 1 && "s"}
+              </>
+            ) : (
+              <>
+                <CgRemove className="mr-1 h-4 w-4" /> Remove Image
+              </>
+            )}
           </Button>
         </motion.div>
       </div>

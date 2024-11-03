@@ -81,9 +81,13 @@ export function ConversionSection({
   };
 
   return (
-    <Card className="bg-background/60 backdrop-blur-sm overflow-hidden">
+    <Card
+      className=" backdrop-blur-sm overflow-hidden
+    bg-transparent shadow-none border-none
+    "
+    >
       <CardHeader>
-        <CardTitle>Image Conversion</CardTitle>
+        <CardTitle className=" text-xl sm:text-lg">Image Conversion</CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
         <AnimatePresence mode="wait">
@@ -98,18 +102,24 @@ export function ConversionSection({
             >
               <div className="flex items-center justify-between p-3 bg-muted rounded-md relative">
                 <ImageDetails
-                  name={TextSlice(currentImage.name, 30, true)!}
-                  format={currentImage.name.split(".").pop() || ""}
-                  size={currentImage.originalSize}
+                  name={
+                    TextSlice(
+                      currentImage.name,
+                      window.innerWidth < 768 ? 15 : 35,
+                      true
+                    )!
+                  }
+                  format={""}
                 />
                 <Button
                   variant="ghost"
                   size="icon"
+                  title="Remove Image"
                   onClick={onReset}
-                  className="absolute -top-2 -right-2 shadow-md bg-background rounded-full"
+                  className="absolute -top-4  -right-4 border shadow-md bg-background rounded-full"
                   aria-label="Remove image"
                 >
-                  <X className="h-4 w-4" />
+                  <X className="h-4 w-4  " />
                 </Button>
               </div>
 
@@ -165,18 +175,23 @@ export function ConversionSection({
               className="space-y-4"
             >
               {currentImage.converted ? (
-                <div className="bg-gradient-to-br from-primary/10  to-primary/10 dark:from-background dark:to-background p-6 rounded-lg ">
+                <div className="bg-gsradient-to-br from-primary/10  to-primary/10 dark:from-background dark:to-background rounded-lg ">
                   <div className="flex items-center justify-center mb-4">
                     <CheckCircle className="text-green-500 h-12 w-12" />
                   </div>
-                  <h3 className="text-xl font-semibold text-center mb-4">
+                  <h3 className="sm:text-xl text-base font-semibold text-center mb-4">
                     Conversion Successful!
                   </h3>
                   <div className=" bg-white shadow  dark:bg-muted/50 rounded-md p-4 mb-4">
                     <ImageDetails
-                      name={TextSlice(currentImage.name, 30, true)!}
+                      name={
+                        TextSlice(
+                          currentImage.name,
+                          window.innerWidth < 768 ? 10 : 35,
+                          true
+                        )!
+                      }
                       format={format}
-                      size={currentImage.convertedSize}
                     />
                   </div>
                   <div className="space-y-2">
@@ -218,26 +233,22 @@ export function ConversionSection({
   );
 }
 
-function ImageDetails({
-  name,
-  format,
-  size,
-}: {
-  name: string;
-  format: string;
-  size: number;
-}) {
+function ImageDetails({ name, format }: { name: string; format: string }) {
   return (
-    <div className="flex flex-col sm:flex-row items-center space-x-3">
+    <div className="flex items-center space-x-3">
       <div className="bg-primary/10 p-2 rounded-full">
         <ImageIcon className="h-6 w-6 text-primary" />
       </div>
       <div>
         <p className="font-medium">
-          {format ? `${name.slice(0, name.lastIndexOf("."))}.${format}` : name}
+          {format
+            ? `${siteData.siteName}-${name.slice(
+                0,
+                name.lastIndexOf(".")
+              )}.${format}`
+            : name}
         </p>
         <p className="text-sm text-muted-foreground">
-          {SizeFormatter(size)} •{" "}
           {format.toUpperCase() || name.split(".").pop()?.toUpperCase()}
         </p>
       </div>

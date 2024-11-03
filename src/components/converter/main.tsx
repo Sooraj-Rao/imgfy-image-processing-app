@@ -22,7 +22,6 @@ export default function ImageConverter() {
   const [isConverting, setIsConverting] = useState(false);
   const [format, setFormat] = useState("jpeg");
 
-  // Handles image uploads by creating URLs and setting initial data
   const handleImageUpload = useCallback((files: File[]) => {
     const newImages = files.map((file) => ({
       original: URL.createObjectURL(file),
@@ -34,7 +33,6 @@ export default function ImageConverter() {
     setImages((prevImages) => [...prevImages, ...newImages]);
   }, []);
 
-  // The image conversion logic remains the same as before
   const handleConversion = useCallback(async () => {
     if (images.length === 0) return;
 

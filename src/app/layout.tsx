@@ -3,16 +3,28 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import { Header, Footer } from "@/components/home/header-footer";
 import { GeistSans } from "geist/font/sans";
-import { GeistMono } from "geist/font/mono";
-
 import { Toaster } from "@/components/ui/sonner";
 
 export const metadata: Metadata = {
-  title: "ImgCompress",
-  description: "Fast, high-quality image compression in seconds",
+  title: "Imgfy - Image Compression and Conversion",
+  description: "Fast, high-quality image compression and conversion tools.",
   keywords:
-    "image compression, compress images, reduce size, photo optimization,ImgCompress,Img Compress,Image Compress,Image Compression ",
+    "image compression, compress images, reduce size, photo optimization, image conversion, convert images, image formats, Imgfy",
   authors: [{ name: "Sooraj Rao" }],
+  openGraph: {
+    title: "Imgfy - Fast Image Compression & Conversion",
+    description:
+      "Achieve high-quality image compression and format conversion in seconds. Ideal for optimizing images for the web, social media, and more.",
+    url: "https://imgfy.soorajrao.in",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Imgfy - High-Quality Image Compression & Conversion",
+    description:
+      "Fast and easy image compression and conversion without losing quality. Perfect for social media and web optimization.",
+    creator: "@SoorajRaoo",
+  },
 };
 
 export default function RootLayout({
@@ -22,7 +34,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={GeistSans.className}>
-      <body className="sm:overflow-hiddsen ">
+      <body className="sm:overflow-hidden">
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
@@ -30,9 +42,9 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <Toaster />
-          <div className="flex flex-col min-h-screen justify-around">
+          <div className="flex flex-col min-h-screen justify-between">
             <Header />
-            <div className=" min-h-[calc(100vh-120px)] ">{children}</div>
+            <main className="min-h-[calc(100vh-120px)]">{children}</main>
             <Footer />
           </div>
         </ThemeProvider>

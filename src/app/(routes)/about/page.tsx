@@ -81,7 +81,7 @@ export default function AboutPage() {
             smoother, more accessible experience.
           </p>
           <div>
-            <h3 className="font-semibold mb-2">Key Features:</h3>
+            <h3 className="font-semibold mb-2 text-xs sm:text-base">Key Features:</h3>
             <div className="grid sm:grid-cols-2 gap-2 text-xs sm:text-base">
               <div>
                 <ul className="list-disc pl-5 space-y-2 ">
@@ -107,7 +107,7 @@ export default function AboutPage() {
         <CardContent>
           <div className="flex flex-col  items-start justify-between gap-4 sm:gap-8">
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-              <p className="text-xs sm:text-base pb-2">
+              <p className="text-sm sm:text-base ">
                 Questions or feedback? We&apos;re here to help!
               </p>
               <AnimatedButton
@@ -118,7 +118,7 @@ export default function AboutPage() {
               </AnimatedButton>
             </div>
             <div className="flex flex-col sm:flex-row items-center gap-4">
-              <p className="text-sm sm:text-base">Connect with us:</p>
+              <h3 className="font-semibold sm:font-normal text-base ">Connect with us</h3>
               <div className="flex gap-2 sm:gap-4">
                 {socialData.map((item) => (
                   <AnimatedButton

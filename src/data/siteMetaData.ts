@@ -1,11 +1,10 @@
 export const siteData = {
   author: "Sooraj Rao",
   siteName: "Imgify",
-  desc: "Lightning-fast image compression with ImgCompress! Shrink your files in seconds without sacrificing quality—save space, boost load times, and keep your workflow moving at top speed. Perfect for anyone who values fast, high-quality results in one click",
-  portfolio: "https://soorajrao.in?ref=ImgCompress",
+  desc: "Lightning-fast Image Conversion and Compression!",
+  portfolio: "https://soorajrao.in?ref=Imgfy",
   email: "mailto:soorajrao630@gmail.com",
   linkedin: "https://www.linkedin.com/in/sooraj-rao",
-  report: "https://contact.soorajrao.in/?mode=report&app=vidtrimr&utm_source=",
-  contact:
-    "https://contact.soorajrao.in/?mode=contact&app=vidtrimr&utm_source=",
+  report: "https://contact.soorajrao.in/?mode=report&app=Imgfy&utm_source=",
+  contact: "https://contact.soorajrao.in/?mode=contact&app=Imgfy&utm_source=",
 };
