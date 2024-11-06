@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import Cookies from "js-cookie";
 import {
   ArrowUpRight,
   Download,
@@ -10,9 +11,9 @@ import {
   Image as ImageIcon,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import { toast } from "sonner";
-import GradientText from "@/utils/gradient-text";
+import { siteData } from "@/data/siteMetaData";
+import fetchData from "@/lib/analytics/fetch-data";
 
 interface BeforeInstallPromptEvent extends Event {
   prompt: () => Promise<void>;
@@ -69,6 +70,12 @@ export default function Hero() {
   }, []);
 
   const handleInstallClick = async () => {
+    fetchData(
+      "install-app",
+      Cookies.get("ref") || "",
+      `hero-${siteData.siteName}`,
+      ""
+    );
     if (deferredPrompt) {
       try {
         await deferredPrompt.prompt();
@@ -113,17 +120,17 @@ export default function Hero() {
         className="text-center max-w-4xl mx-auto"
       >
         <motion.h1
-          className="text-2xl sm:text-5xl md:text-6xl font-extrabold tracking-tight"
+          className="text-2xl sm:text-5xl  md:text-6xl font-extrabold tracking-tight"
           initial={{ scale: 0.9 }}
           animate={{ scale: 1 }}
           transition={{ type: "spring", stiffness: 200, damping: 10 }}
         >
-          <GradientText>Fast, Simple, and Powerful</GradientText>
+          <span className="gradient-5">Fast, Simple, and Powerful</span>
           <br />
-          <GradientText>Image Processor</GradientText>
+          <span className="gradient-5 ">Image Processor</span>
         </motion.h1>
         <motion.p
-          className="mt-4 text-sm sm:text-xl text-muted-foreground"
+          className="mt-4 text-sm sm:text-lg   text-muted-foreground"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.2 }}
@@ -232,23 +239,39 @@ export const NavButtons = ({
   return (
     <>
       <Link
+        onClick={() =>
+          fetchData(
+            "compress-button",
+            Cookies.get("ref") || "",
+            `hero-${siteData.siteName}`,
+            ""
+          )
+        }
         href="/compress"
         className={`
       ${path?.includes("compress") && "hidden"}
       `}
       >
-        <Button size={size} className="group">
+        <Button size={size} className="group gradient-1" variant="outline">
           Compressor
           <ArrowUpRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
         </Button>
       </Link>
       <Link
+        onClick={() =>
+          fetchData(
+            "convert-button",
+            Cookies.get("ref") || "",
+            `hero-${siteData.siteName}`,
+            ""
+          )
+        }
         href="/convert"
         className={`
        ${path?.includes("convert") && "hidden"}
        `}
       >
-        <Button size={size} className="group">
+        <Button size={size} className="group gradient-1" variant="outline">
           Converter
           <ArrowUpRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
         </Button>

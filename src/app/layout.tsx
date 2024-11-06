@@ -4,6 +4,8 @@ import { ThemeProvider } from "@/components/theme/theme-provider";
 import { Header, Footer } from "@/components/home/header-footer";
 import { GeistSans } from "geist/font/sans";
 import { Toaster } from "@/components/ui/sonner";
+import { Suspense } from "react";
+import Analytics from "@/lib/analytics/main";
 
 export const metadata: Metadata = {
   title: "Imgfy - Image Compression and Conversion",
@@ -35,19 +37,22 @@ export default function RootLayout({
   return (
     <html lang="en" className={GeistSans.className}>
       <body className="sm:overflow-hidden">
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <Toaster />
-          <div className="flex flex-col min-h-screen justify-between">
-            <Header />
-            <main className="min-h-[calc(100vh-120px)]">{children}</main>
-            <Footer />
-          </div>
-        </ThemeProvider>
+        <Suspense fallback={<h1>Loading...</h1>}>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <Toaster />
+            <div className="flex flex-col min-h-screen justify-between">
+              <Analytics />
+              <Header />
+              <main className="min-h-[calc(100vh-120px)]">{children}</main>
+              <Footer />
+            </div>
+          </ThemeProvider>
+        </Suspense>
       </body>
     </html>
   );

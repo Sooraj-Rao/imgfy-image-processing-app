@@ -2,16 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* @font-face {
-  font-family: 'CustomFont';
-  src: url('../../public/font/Font2.woff2') format('woff2');
-  font-weight: normal;
-  font-style: normal;
-}
 
-body {
-  font-family: 'CustomFont', sans-serif;
-} */
 
 :root {
   --foreground-rgb: 0, 0, 0;
@@ -127,12 +118,25 @@ body {
   100% {
     background-position: 1000px 0;
 
-
-
-
-
-
-
-
   }
+}
+
+
+
+.gradient-1 {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-[#f0204d] via-[#F472B6] to-[#FFA07A] dark:from-[#f0204d] dark:via-[#F472B6] dark:to-[#FFA07A];
+}
+
+.gradient-2 {
+  @apply bg-clip-text text-transparent bg-gradient-to-br from-[#4682B4] via-[#f0204d] to-[#F472B6] dark:from-[#4682B4] dark:via-[#f0204d] dark:to-[#F472B6];
+}
+
+
+
+.gradient-4 {
+  @apply bg-clip-text text-transparent bg-gradient-to-bl from-[#f0204d] via-[#FF6347] to-[#4682B4] dark:from-[#f0204d] dark:via-[#FF6347] dark:to-[#4682B4];
+}
+
+.gradient-5 {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-[#20B2AA] via-[#F472B6] to-[#f0204d] dark:from-[#20B2AA] dark:via-[#F472B6] dark:to-[#f0204d];
 }
