@@ -24,7 +24,7 @@ export const Header = () => {
     <header className="shadow dark:border-b flex justify-center w-full">
       <div className="flex items-center justify-between 2xl:justify-around w-full py-3 px-4">
         <Link href={"/"} className="">
-          <div className="flex items-center space-x-2 text-rose-500 hover:text-primary duration-300">
+          <div className="flex items-center  space-x-2 text-rose-500 hover:text-primary duration-300">
             <ImageIcon className="h-8 w-8 " />
             <span className="text-xl font-extrabold">{siteData.siteName}</span>
           </div>
@@ -75,9 +75,9 @@ export const Header = () => {
                     <Button variant="ghost">About</Button>
                   </Link>
                   {path !== "/" && (
-                    <>
+                    <div onClick={() => setIsSheetOpen(false)} className=" flex flex-col gap-2">
                       <NavButtons size="sm" path={path} />
-                    </>
+                    </div>
                   )}
                   <Link
                     href={siteData.report + siteData.siteName}

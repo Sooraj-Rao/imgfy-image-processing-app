@@ -13,6 +13,7 @@ const Analytics = () => {
 
   useEffect(() => {
     if (!fetchDataCalled.current) {
+      if (process.env.NEXT_PUBLIC_ENV !== "production") return;
       const refToUse = Ref || "search";
       fetchData(`view:${siteData.siteName}`, refToUse, "", "");
       Cookies.set("ref", refToUse);

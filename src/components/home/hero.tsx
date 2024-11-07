@@ -120,14 +120,14 @@ export default function Hero() {
         className="text-center max-w-4xl mx-auto"
       >
         <motion.h1
-          className="text-2xl sm:text-5xl  md:text-6xl font-extrabold tracking-tight"
+          className="text-2xl sm:text-5xl gradient-2  md:text-6xl font-extrabold tracking-tight"
           initial={{ scale: 0.9 }}
           animate={{ scale: 1 }}
           transition={{ type: "spring", stiffness: 200, damping: 10 }}
         >
-          <span className="gradient-5">Fast, Simple, and Powerful</span>
+          <span className="">Fast, Simple, and Powerful</span>
           <br />
-          <span className="gradient-5 ">Image Processor</span>
+          <span className="sgradient-5">Image Processor</span>
         </motion.h1>
         <motion.p
           className="mt-4 text-sm sm:text-lg   text-muted-foreground"
@@ -252,9 +252,13 @@ export const NavButtons = ({
       ${path?.includes("compress") && "hidden"}
       `}
       >
-        <Button size={size} className="group gradient-1" variant="outline">
+        <Button
+          size={size}
+          className="group 
+       "
+        >
           Compressor
-          <ArrowUpRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+          <ArrowUpRight className="ml-2  h-4 w-4  group-hover:translate-x-1 group-hover:-translate-y-1" />
         </Button>
       </Link>
       <Link
@@ -271,9 +275,9 @@ export const NavButtons = ({
        ${path?.includes("convert") && "hidden"}
        `}
       >
-        <Button size={size} className="group gradient-1" variant="outline">
+        <Button size={size} className="group  ">
           Converter
-          <ArrowUpRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+          <ArrowUpRight className="ml-2  h-4 w-4 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
         </Button>
       </Link>
     </>

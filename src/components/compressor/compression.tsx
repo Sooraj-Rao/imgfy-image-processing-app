@@ -316,7 +316,11 @@ export function CompressionSection({
         >
           <p
             className={`font-semibold text-zinc-700 dark:text-zinc-300
-          ${!currentImage.compressed ? "sm:invisible hidden sm:block" : "sm:visible block"}
+          ${
+            !currentImage.compressed
+              ? "sm:invisible hidden sm:block"
+              : "sm:visible block"
+          }
           `}
           >
             Result
@@ -349,7 +353,12 @@ export function CompressionSection({
                   <Button asChild className="w-full">
                     <a
                       href={currentImage.compressed}
-                      download={`${siteData.siteName}-Compressed-${currentImage.name}.${format}`}
+                      download={`${
+                        siteData.siteName
+                      }-Compressed-${currentImage.name.slice(
+                        0,
+                        currentImage.name.lastIndexOf(".")
+                      )}.${format}`}
                     >
                       <Download className="mr-2 h-4 w-4" />
                       Download

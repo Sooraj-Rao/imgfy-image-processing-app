@@ -128,15 +128,13 @@
 }
 
 .gradient-2 {
-  @apply bg-clip-text text-transparent bg-gradient-to-br from-[#4682B4] via-[#f0204d] to-[#F472B6] dark:from-[#4682B4] dark:via-[#f0204d] dark:to-[#F472B6];
+  @apply bg-clip-text text-transparent bg-gradient-to-br from-[#4682B4] via-[#f0204d] to-[#F472B6] dark:from-[#4682B4] dark:via-[#fa728f] dark:to-[#f3155f];
+}
+
+.gradient-3 {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-[#20B2AA] via-[#F472B6] to-[#f0204d] dark:from-[#60c4ad] dark:via-[#e070aa] dark:to-[#f0204dd4];
 }
 
 
 
-.gradient-4 {
-  @apply bg-clip-text text-transparent bg-gradient-to-bl from-[#f0204d] via-[#FF6347] to-[#4682B4] dark:from-[#f0204d] dark:via-[#FF6347] dark:to-[#4682B4];
-}
 
-.gradient-5 {
-  @apply bg-clip-text text-transparent bg-gradient-to-r from-[#20B2AA] via-[#F472B6] to-[#f0204d] dark:from-[#20B2AA] dark:via-[#F472B6] dark:to-[#f0204d];
-}
