@@ -5,6 +5,6 @@ export const siteData = {
   portfolio: "https://soorajrao.in?ref=Imgfy",
   email: "mailto:soorajrao630@gmail.com",
   linkedin: "https://www.linkedin.com/in/sooraj-rao",
-  report: "https://contact.soorajrao.in/?mode=report&app=Imgfy&utm_source=",
-  contact: "https://contact.soorajrao.in/?mode=contact&app=Imgfy&utm_source=",
+  report: "https://soorajrao.in?ref=Imgfy_report",
+  contact: "https://soorajrao.in?ref=Imgfy_contact",
 };

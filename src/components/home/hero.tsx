@@ -26,8 +26,10 @@ export default function Hero() {
   const [installCount, setInstallCount] = useState(0);
   const [isInstallable, setIsInstallable] = useState(false);
   const [showTroubleshoot, setShowTroubleshoot] = useState(false);
+  const [mounted, setmounted] = useState(false);
 
   useEffect(() => {
+    setmounted(true);
     const handleBeforeInstallPrompt = (e: BeforeInstallPromptEvent) => {
       e.preventDefault();
       setDeferredPrompt(e);
@@ -111,12 +113,22 @@ export default function Hero() {
     }
   };
 
+  if (!mounted)
+    return (
+      <div className="flex flex-col items-center justify-center mt-40 animate-pulse text-center">
+        <h1 className="text-xl font-semibold text-gray-500">Loading...</h1>
+        <p className="text-sm text-gray-500 mt-2">
+          Getting things ready for you. Please hang tight!
+        </p>
+      </div>
+    );
+
   return (
     <div className="min-h-[calc(100vh-120px)] flex flex-col items-center justify-center p-4 sm:p-8">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
+        transition={{ duration: 0 }}
         className="text-center max-w-4xl mx-auto"
       >
         <motion.h1

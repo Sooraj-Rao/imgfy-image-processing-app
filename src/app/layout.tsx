@@ -37,7 +37,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={GeistSans.className}>
       <body className="sm:overflow-hidden">
-        <Suspense fallback={<h1>Loading...</h1>}>
+        <Suspense>
           <ThemeProvider
             attribute="class"
             defaultTheme="system"

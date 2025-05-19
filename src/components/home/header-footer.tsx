@@ -46,7 +46,7 @@ export const Header = () => {
             </>
           )}
           <Link
-            href={siteData.report + siteData.siteName}
+            href={siteData.report}
             className="flex items-center gap-1 scale-90"
             title="Opens form for reporting"
           >
@@ -75,12 +75,15 @@ export const Header = () => {
                     <Button variant="ghost">About</Button>
                   </Link>
                   {path !== "/" && (
-                    <div onClick={() => setIsSheetOpen(false)} className=" flex flex-col gap-2">
+                    <div
+                      onClick={() => setIsSheetOpen(false)}
+                      className=" flex flex-col gap-2"
+                    >
                       <NavButtons size="sm" path={path} />
                     </div>
                   )}
                   <Link
-                    href={siteData.report + siteData.siteName}
+                    href={siteData.report}
                     className="flex items-center gap-1"
                     onClick={() => setIsSheetOpen(false)}
                   >
@@ -99,7 +102,6 @@ export const Header = () => {
 
 export const Footer = () => (
   <footer className="flex justify-evenly w-full border-t py-4 sm:text-sm text-xs dark:text-gray-200 text-zinc-900">
-    <p>© 2024 {siteData.siteName}</p>
     <Link
       title="Open Portfolio"
       className="group"

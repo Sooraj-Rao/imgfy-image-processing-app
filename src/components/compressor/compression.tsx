@@ -123,7 +123,7 @@ export function CompressionSection({
           </p>
           <div className="space-y-2">
             <Label htmlFor="compressionLevel" className="text-sm font-medium">
-              Compression Level: {compressionLevel}%
+              Quality: {compressionLevel}%
             </Label>
             <Slider
               id="compressionLevel"
@@ -148,9 +148,7 @@ export function CompressionSection({
                 <SelectValue placeholder="Select format" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="jpeg">
-                  JPEG <span className=" text-xs px-2">(Preferred)</span>
-                </SelectItem>
+                <SelectItem value="jpeg">JPEG</SelectItem>
                 <SelectItem value="webp">WebP</SelectItem>
               </SelectContent>
             </Select>
